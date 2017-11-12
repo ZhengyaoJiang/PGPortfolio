@@ -4,7 +4,7 @@ with open("README.md") as f:
     readme = f.read()
 
 setup(
-    name="nntrader",
+    name="pgportfolio",
     version="1.0.0",
     description="",
     long_description=readme,

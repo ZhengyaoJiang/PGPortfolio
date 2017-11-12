@@ -6,8 +6,8 @@ import logging
 import os
 import time
 from multiprocessing import Process
-from nntrader.learn.tradertrainer import TraderTrainer
-from nntrader.tools.configprocess import load_config
+from pgportfolio.learn.tradertrainer import TraderTrainer
+from pgportfolio.tools.configprocess import load_config
 
 
 def train_one(save_path, config, log_file_dir, index, logfile_level, console_level, device):

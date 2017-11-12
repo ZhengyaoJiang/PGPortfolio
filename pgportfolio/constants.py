@@ -3,10 +3,10 @@
 from os import path
 
 DATABASE_DIR = path.realpath(__file__).\
-    replace('nntrader/constants.pyc','/database/Data.db').\
-    replace("nntrader\\constants.pyc","database\\Data.db").\
-    replace('nntrader/constants.py','/database/Data.db').\
-    replace("nntrader\\constants.py","database\\Data.db")
+    replace('pgportfolio/constants.pyc','/database/Data.db').\
+    replace("pgportfolio\\constants.pyc","database\\Data.db").\
+    replace('pgportfolio/constants.py','/database/Data.db').\
+    replace("pgportfolio\\constants.py","database\\Data.db")
 CONFIG_FILE_DIR = 'net_config.json'
 LAMBDA = 1e-4  # lambda in loss function 5 in training
    # About time

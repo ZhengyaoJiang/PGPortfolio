@@ -6,11 +6,11 @@ import time
 from argparse import ArgumentParser
 from datetime import datetime
 
-from nntrader.tools.configprocess import preprocess_config
-from nntrader.tools.configprocess import load_config
-from nntrader.tools.trade import save_test_data
-from nntrader.tools.shortcut import execute_backtest
-from nntrader.resultprocess import plot
+from pgportfolio.tools.configprocess import preprocess_config
+from pgportfolio.tools.configprocess import load_config
+from pgportfolio.tools.trade import save_test_data
+from pgportfolio.tools.shortcut import execute_backtest
+from pgportfolio.resultprocess import plot
 
 
 def build_parser():
@@ -38,7 +38,7 @@ def build_parser():
     parser.add_argument("--device", dest="device", default="cpu",
                         help="device to be used to train")
     parser.add_argument("--folder", dest="folder", type=int,
-                        help="folder(int) to load the config, neglect this option if loading from ./nntrader/net_config")
+                        help="folder(int) to load the config, neglect this option if loading from ./pgportfolio/net_config")
     return parser
 
 
@@ -51,19 +51,19 @@ def main():
         os.makedirs("./" + "database")
 
     if options.mode == "train":
-        import nntrader.autotrain.training
+        import pgportfolio.autotrain.training
         if not options.algo:
-            nntrader.autotrain.training.train_all(int(options.processes), options.device)
+            pgportfolio.autotrain.training.train_all(int(options.processes), options.device)
         else:
             for folder in options.train_floder:
                 raise NotImplementedError()
     elif options.mode == "generate":
-        import nntrader.autotrain.generate as generate
+        import pgportfolio.autotrain.generate as generate
         logging.basicConfig(level=logging.INFO)
         generate.add_packages(load_config(), int(options.repeat))
     elif options.mode == "download_data":
-        from nntrader.marketdata.datamatrices import DataMatrices
-        with open("./nntrader/net_config.json") as file:
+        from pgportfolio.marketdata.datamatrices import DataMatrices
+        with open("./pgportfolio/net_config.json") as file:
             config = json.load(file)
         config = preprocess_config(config)
         start = time.mktime(datetime.strptime(config["input"]["start_date"], "%Y/%m/%d").timetuple())

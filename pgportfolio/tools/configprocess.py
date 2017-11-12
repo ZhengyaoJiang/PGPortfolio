@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 import os
 rootpath = os.path.dirname(os.path.abspath(__file__)).\
-    replace("\\nntrader\\tools", "").replace("/nntrader/tools","")
+    replace("\\pgportfolio\\tools", "").replace("/pgportfolio/tools","")
 
 
 def preprocess_config(config):
@@ -90,14 +90,14 @@ def parse_time(time_string):
 
 def load_config(index=None):
     """
-    @:param index: if None, load the default in nntrader;
+    @:param index: if None, load the default in pgportfolio;
      if a integer, load the config under train_package
     """
     if index:
         with open(rootpath+"/train_package/" + str(index) + "/net_config.json") as file:
             config = json.load(file)
     else:
-        with open(rootpath+"/nntrader/" + "net_config.json") as file:
+        with open(rootpath+"/pgportfolio/" + "net_config.json") as file:
             config = json.load(file)
     return preprocess_config(config)
 

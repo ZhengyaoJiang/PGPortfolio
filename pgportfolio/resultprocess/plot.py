@@ -7,9 +7,9 @@ import logging
 import json
 import numpy as np
 import datetime
-from nntrader.tools.indicator import max_drawdown, sharpe, positive_count, negative_count, moving_accumulate
-from nntrader.tools.configprocess import parse_time, check_input_same
-from nntrader.tools.shortcut import execute_backtest
+from pgportfolio.tools.indicator import max_drawdown, sharpe, positive_count, negative_count, moving_accumulate
+from pgportfolio.tools.configprocess import parse_time, check_input_same
+from pgportfolio.tools.shortcut import execute_backtest
 
 # the dictionary of name of indicators mapping to the function of related indicators
 # input is portfolio changes
@@ -44,7 +44,7 @@ NAMES = {"best": "Best Stock (Benchmark)",
 def plot_backtest(config, algos, labels=None):
     """
     @:param config: config dictionary
-    @:param algos: list of strings representing the name of algorithms or index of nntrader result
+    @:param algos: list of strings representing the name of algorithms or index of pgportfolio result
     """
     results = []
     for i, algo in enumerate(algos):
@@ -105,7 +105,7 @@ def table_backtest(config, algos, labels=None, format="raw",
     """
     @:param config: config dictionary
     @:param algos: list of strings representing the name of algorithms
-    or index of nntrader result
+    or index of pgportfolio result
     @:param format: "raw", "html", "latex" or "csv". If it is "csv",
     the result will be save in a csv file. otherwise only print it out
     @:return: a string of html or latex code

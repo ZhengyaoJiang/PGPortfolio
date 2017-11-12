@@ -2,8 +2,8 @@ from __future__ import absolute_import, print_function, division
 import tflearn
 import tensorflow as tf
 import numpy as np
-from nntrader.constants import *
-import nntrader.learn.network as network
+from pgportfolio.constants import *
+import pgportfolio.learn.network as network
 
 class NNAgent:
     def __init__(self, config, restore_dir=None, device="cpu"):

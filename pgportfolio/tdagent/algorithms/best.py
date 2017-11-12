@@ -11,10 +11,10 @@ class BEST(TDAgent):
 
     def decide_by_history(self, data, last_b=None):
         if self.last_b is None:
-            from nntrader.tools.trade import get_test_data
-            from nntrader.tools.configprocess import preprocess_config
+            from pgportfolio.tools.trade import get_test_data
+            from pgportfolio.tools.configprocess import preprocess_config
             import json
-            with open("nntrader/net_config.json") as file:
+            with open("pgportfolio/net_config.json") as file:
                 config = json.load(file)
             config = preprocess_config(config)
             data = get_test_data(config)

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from nntrader.learn.tradertrainer import TraderTrainer
+from pgportfolio.learn.tradertrainer import TraderTrainer
 import logging
 import tflearn
 

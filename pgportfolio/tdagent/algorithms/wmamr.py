@@ -1,4 +1,4 @@
-from nntrader.tdagent.algorithms.pamr import PAMR
+from pgportfolio.tdagent.algorithms.pamr import PAMR
 import numpy as np
 
 

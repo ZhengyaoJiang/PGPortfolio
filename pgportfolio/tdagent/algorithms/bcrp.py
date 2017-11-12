@@ -1,5 +1,5 @@
 from ..tdagent import TDAgent
-from nntrader.tdagent.algorithms.crp import CRP
+from pgportfolio.tdagent.algorithms.crp import CRP
 import numpy as np
 from scipy.optimize import minimize
 
@@ -22,10 +22,10 @@ class BCRP(CRP):
 
     def decide_by_history(self, x, last_b):
         if self.last_b is None:
-            from nntrader.tools.trade import get_test_data
-            from nntrader.tools.configprocess import preprocess_config
+            from pgportfolio.tools.trade import get_test_data
+            from pgportfolio.tools.configprocess import preprocess_config
             import json
-            with open("nntrader/net_config.json") as file:
+            with open("pgportfolio/net_config.json") as file:
                 config = json.load(file)
             config = preprocess_config(config)
             data = get_test_data(config)
@@ -44,10 +44,10 @@ def opt_weights(X, max_leverage=1):
 
 
 if __name__ == '__main__':
-    from nntrader.tools.backtest import get_test_data
-    from nntrader.tools.configprocess import preprocess_config
+    from pgportfolio.tools.backtest import get_test_data
+    from pgportfolio.tools.configprocess import preprocess_config
     import json
-    with open("nntrader/net_config.json") as file:
+    with open("pgportfolio/net_config.json") as file:
         config = json.load(file)
     config = preprocess_config(config)
     data = get_test_data(config)

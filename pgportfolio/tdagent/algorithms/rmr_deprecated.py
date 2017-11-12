@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from nntrader.tdagent.algorithms.olmar import OLMAR
+from pgportfolio.tdagent.algorithms.olmar import OLMAR
 
 class RMR(OLMAR):
     '''universal-portfolio implementation'''

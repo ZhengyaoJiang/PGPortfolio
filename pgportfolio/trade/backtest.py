@@ -1,9 +1,9 @@
 from __future__ import absolute_import, division, print_function
 import numpy as np
-from nntrader.trade import trader
-from nntrader.marketdata.datamatrices import DataMatrices
+from pgportfolio.trade import trader
+from pgportfolio.marketdata.datamatrices import DataMatrices
 import logging
-from nntrader.tools.trade import calculate_pv_after_commission
+from pgportfolio.tools.trade import calculate_pv_after_commission
 
 
 class BackTest(trader.Trader):

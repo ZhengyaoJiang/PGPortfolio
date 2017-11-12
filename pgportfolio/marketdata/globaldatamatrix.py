@@ -2,11 +2,11 @@ from __future__ import division
 from __future__ import absolute_import
 from __future__ import print_function
 
-from nntrader.marketdata.coinlist import CoinList
+from pgportfolio.marketdata.coinlist import CoinList
 import numpy as np
 import pandas as pd
-from nntrader.tools.data import panel_fillna
-from nntrader.constants import *
+from pgportfolio.tools.data import panel_fillna
+from pgportfolio.constants import *
 import sqlite3
 from datetime import datetime
 import logging
