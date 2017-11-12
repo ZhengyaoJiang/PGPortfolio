@@ -1,0 +1,38 @@
+{
+  "layers":
+  [
+    {"filter_shape": [1, 2], "filter_number": 3, "type": "ConvLayer"},
+    {"filter_number":10, "type": "EIIE_Dense", "regularizer": "L2", "weight_decay": 5e-9},
+    {"type": "EIIE_Output","regularizer": "L2", "weight_decay": 5e-8}
+  ],
+  "training":{
+    "steps":80000,
+    "learning_rate":0.00028,
+    "batch_size":109,
+    "buffer_biased":5e-5,
+    "snap_shot":false,
+    "fast_train":true,
+    "training_method":"Adam",
+    "loss_function":"loss_function6"
+  },
+
+  "input":{
+    "window_size":31,
+    "coin_number":11,
+    "global_period":1800,
+    "feature_number":3,
+    "test_portion":0.1,
+    "online":true,
+    "start_date":"2014/11/01",
+    "end_date":"2016/11/01",
+    "volume_average_days":30
+  },
+
+  "trading":{
+    "trading_consumption":0.0025,
+    "rolling_training_steps":85,
+    "learning_rate":0.00028,
+    "buffer_biased":5e-5
+  }
+}
+
