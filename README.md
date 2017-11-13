@@ -18,7 +18,14 @@ Note that this library is a part of our main project, which is several versions 
 ## Platform Support
 Python 3.5+ in windows and Python 2.7+/3.5+ in linux are supported.
 
-Tensorflow >= 1.0.0
+## Dependencies
+Install Dependencies via `pip install -r requirements.txt`
 
-## User Guide ##
-A full user guide will uploaded shortly.
+* tensorflow (>= 1.0.0)
+* tflearn
+* pandas
+* ...
+
+## User Guide
+
+Check [wiki page](https://github.com/ZhengyaoJiang/PGPortfolio/wiki/User-Guide)
