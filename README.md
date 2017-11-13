@@ -18,7 +18,7 @@ Note that this library is a part of our main project, which is several versions 
 ## Platform Support
 Python 3.5+ in windows and Python 2.7+/3.5+ in linux are supported.
 
-*TODO: how about tensorflow versions?*
+Tensorflow >= 1.0.0
 
 ## User Guide ##
 A full user guide will uploaded shortly.
