@@ -28,4 +28,4 @@ Install Dependencies via `pip install -r requirements.txt`
 
 ## User Guide
 
-Check [wiki page](https://github.com/ZhengyaoJiang/PGPortfolio/wiki/User-Guide)
+Check [User Guide](user_guide.md) or [wiki page](https://github.com/ZhengyaoJiang/PGPortfolio/wiki/User-Guide)
