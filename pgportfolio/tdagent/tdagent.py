@@ -106,17 +106,16 @@ class TDAgent(object):
             self.cum_ret = self.cum_ret * ret #element-wise
         return self.cum_ret
 
-    def find_bcrp(self, histo, max_leverage=1):
-        x_0 = np.zeros(x.size)
-        x_0[0] = 1
-        objective = lambda b: -np.prod(np.dot(self.history, b))
+    def find_bcrp(self, X, max_leverage=1):
+        x_0 = max_leverage * np.ones(X.shape[1]) / np.float(X.shape[1])
+        objective = lambda b: -np.prod(np.dot(X, b))
         cons = ({'type': 'eq', 'fun': lambda b: max_leverage - np.sum(b, axis=0)},)
-        bnds = [(0., max_leverage)]*x.size
+        bnds = [(0., max_leverage)]*len(x_0)
         while True:
             res = minimize(objective, x_0, bounds=bnds, constraints=cons, method='slsqp')
             eps = 1e-7
             if (res.x < 0-eps).any() or (res.x > max_leverage+eps).any():
-                x = x + np.random.randn(1)[0] * 1e-5
+                X = X + np.random.randn(1)[0] * 1e-5
                 logging.debug('Optimal weights not found, trying again...')
                 continue
             elif res.success:
@@ -124,7 +123,7 @@ class TDAgent(object):
             else:
                 if np.isnan(res.x).any():
                     logging.warning('Solution does not exist, use uniform portfolio weight vector.')
-                    res.x = np.ones(x.size) / x.size
+                    res.x = np.ones(X.shape[1]) / X.shape[1]
                 else:
                     logging.warning('Converged but not successfully.')
                 break
