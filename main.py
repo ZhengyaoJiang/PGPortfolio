@@ -16,7 +16,7 @@ from pgportfolio.resultprocess import plot
 def build_parser():
     parser = ArgumentParser()
     parser.add_argument("--mode",dest="mode",
-                        help="start mode, train, generat, download_data"
+                        help="start mode, train, generate, download_data"
                              " backtest",
                         metavar="MODE", default="train")
     parser.add_argument("--processes", dest="processes",

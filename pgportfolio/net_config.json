@@ -21,10 +21,10 @@
     "coin_number":11,
     "global_period":1800,
     "feature_number":3,
-    "test_portion":0.1,
+    "test_portion":0.08,
     "online":true,
-    "start_date":"2014/11/01",
-    "end_date":"2016/11/01",
+    "start_date":"2015/02/01",
+    "end_date":"2017/02/01",
     "volume_average_days":30
   },
 

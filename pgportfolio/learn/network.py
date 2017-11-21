@@ -98,9 +98,7 @@ class CNN(NeuralNetWork):
                 btc_bias = tf.zeros((self.input_num, 1))
                 network = tf.concat([btc_bias, network], 1)
                 self.voting = network
-                #network = tflearn.layers.core.activation(network, activation="softmax")
-                network = tflearn.layers.core.activation(network, activation="tanh")
-                network = network / tf.reduce_sum(tf.abs(network))
+                network = tflearn.layers.core.activation(network, activation="softmax")
 
             elif layer["type"] == "EIIE_LSTM" or\
                             layer["type"] == "EIIE_RNN":
