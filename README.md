@@ -10,7 +10,7 @@ The method is basically the policy gradient on immediate reward.
 Note that this library is a part of our main project, which is several versions beyond the article described.
 
 * In this version, some technical bugs has been fixed and there are also some improvement in hyper-parameters and engineering.
-  * The most important bug in the arxiv v2 article is the test time span mentioned in the article is about 30% shorter than the real one. And thus the volumn average interval(for asset selection) overlapped with the backtest data.
+  * The most important bug in the arxiv v2 article is the test time span mentioned in the article is about 30% shorter than the real one. And thus the volumn average interval(for asset selection) overlapped with the backtest data.
 * With new hyper-parameters, users can train the model in a very fast pace.(less than 30 mins)
 * All updates will be incorporated into future versions of the article.
 * Original versioning history,  and internal discussions, including some in-code comments, are removed in this open-sourced edition. These contains our unimplemented ideas, some of which will very likely become the foundations of our future publications
