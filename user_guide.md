@@ -41,11 +41,11 @@ Under the `nntrader/nntrader` directory, there is a json file called `net_config
 ## Training and Tuning the hyper-parameters
 1. First, change the content in the `nntrader/nntrader/net_config.json` file.
 2. make sure current directory is under `nntrader` and type `python main.py --mode=generate --repeat=1`
-    * this will make 10 subfolders under the `train_package`
+    * this will make 1 subfolders under the `train_package`
     * in each subfloder, there is a copy of the `net_config.json`
-    * `--repeat=` could follow any positive integers
+    * `--repeat=n`, n could follow any positive integers. The random seed of each the subfolder ranges from 0 to n-1.
 3. type `python main.py --mode=train --processes=1`
-    * this will start training one by one of the 10 floders created just now
+    * this will start training one by one of the n floders created just now
     * do not start more than 1 processes if you want to download data online
 4. after that, check the summary of the training in `nntrader/train_package/train_summary`
 5. tune the hyper-parameters based on the summary, and goto 1 again.
@@ -65,7 +65,7 @@ There are three types of logging of each training.
 * Type `python main.py --mode=download_data` you can download data without starting training
 * The program will use the configurations in `nntrader/nntrader/net_config` to select coins and
   download necessary data to train the network.
-* The downloading speed could be very slow and sometimes even have timeout error in China
+* The downloading speed could be very slow and sometimes even have error in China. See #4 for details.
 
 ## Back-test
 * Type `python main.py --mode=backtest --algo=1` to conduct
