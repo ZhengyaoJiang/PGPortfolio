@@ -35,10 +35,9 @@ This project would not have been finished without using the codes from the follo
 * [Online Portfolio Selection toolbox](https://github.com/OLPS/OLPS)
 
 ## Community Contribution
-We welcome contributions from the community, including:
-* Bug fixing.
-* Interfacing to other markets such as stock, futures, options.
-* Other improvements
+We welcome contributions from the community, including but not limited to:
+* Bug fixing
+* Interfacing to other markets such as stock, futures, options
 
 ## Risk Disclamier (for Live-trading)
 
@@ -49,5 +48,5 @@ There is risk of loss in trading and investing. **All trading strategies are use
 ## Donation
 If you have made some profits because of this library or you just love reading our codes, please consider making a small donation to our ongoing projects via the following BTC or ETH address. All donations will be used as student stipents. 
 
-BTC: 1PEHK1nVi8x4HQM1A67anyfYzdDFoqUo21
-ETH: 0xa8197289e16C0cCad0a4838719ce11C9A920cfB7
+* BTC: 1PEHK1nVi8x4HQM1A67anyfYzdDFoqUo21
+* ETH: 0xa8197289e16C0cCad0a4838719ce11C9A920cfB7
