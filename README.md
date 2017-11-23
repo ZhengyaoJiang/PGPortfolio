@@ -33,8 +33,6 @@ Please check out [User Guide](user_guide.md)
 ## Acknownledgement
 This project would not have been finished without using the codes from the following open source projects:
 * [Online Portfolio Selection toolbox](https://github.com/OLPS/OLPS)
-* TODO: TPE?
-* https://github.com/s4w3d0ff/python-poloniex
 
 ## Donation
 If you have made some profits because of this library or you just love reading our codes, please consider making a small donation to our ongoing projects via the following BTC or ETH address. All donations will be used as student stipents. 
