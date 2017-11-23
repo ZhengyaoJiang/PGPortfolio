@@ -34,6 +34,17 @@ Please check out [User Guide](user_guide.md)
 This project would not have been finished without using the codes from the following open source projects:
 * [Online Portfolio Selection toolbox](https://github.com/OLPS/OLPS)
 
+## Community Contribution
+We welcome contributions from the community, including:
+* Bug fixxing.
+* Interfacing to other markets such as stock market or future market.
+* Other improvements
+
+## Live-trading
+One should take the risks by yourself if he applys the algorithm to real market.
+The volumn of cryptocurrency market is still low, thus, the market impact and slippage may badly affect the results once the capital controlled by the agent is large.
+
+
 ## Donation
 If you have made some profits because of this library or you just love reading our codes, please consider making a small donation to our ongoing projects via the following BTC or ETH address. All donations will be used as student stipents. 
 
