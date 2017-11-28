@@ -23,8 +23,8 @@
     "feature_number":3,
     "test_portion":0.08,
     "online":true,
-    "start_date":"2015/02/01",
-    "end_date":"2017/02/01",
+    "start_date":"2015/07/01",
+    "end_date":"2017/07/01",
     "volume_average_days":30
   },
 

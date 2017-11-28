@@ -31,24 +31,60 @@ Under the `nntrader/nntrader` directory, there is a json file called `net_config
     * `"end_date"`
         * start date of the global data matrix
         * format is yyyy/MM/dd
+        * The performance could varied a lot in different time ranges.
     * `"volume_average_days"`
         * number of days of volume used to select the coins
+    * `"test_portion"`
+        * portion of backtest data, ranging from 0 to 1. The left is training data.
+    * `"global_period"`
+        * trading period and period of prices in input window.
+        * should be a multiple of 300 (seconds)
+    * `"coin_number"`
+        * number of assets to be traded.
+        * does not include cash (i.e. btc)
     * `"online"`
         * if it is not online, the program will select coins and generate inputs
         from the local database.
         * if it is online, new data that dose not exist in the database would be saved
 
 ## Training and Tuning the hyper-parameters
-1. First, change the content in the `nntrader/nntrader/net_config.json` file.
+1. First, modify the `nntrader/nntrader/net_config.json` file.
 2. make sure current directory is under `nntrader` and type `python main.py --mode=generate --repeat=1`
     * this will make 1 subfolders under the `train_package`
     * in each subfloder, there is a copy of the `net_config.json`
-    * `--repeat=n`, n could follow any positive integers. The random seed of each the subfolder ranges from 0 to n-1.
+    * `--repeat=n`, n could followed by any positive integers. The random seed of each the subfolder is from 0 to n-1 sequentially.
+      * Notably, random seed could also affect the performance in a large scale.
 3. type `python main.py --mode=train --processes=1`
     * this will start training one by one of the n floders created just now
     * do not start more than 1 processes if you want to download data online
-4. after that, check the summary of the training in `nntrader/train_package/train_summary`
-5. tune the hyper-parameters based on the summary, and goto 1 again.
+    * "--processes=n" means start n processes running parallely.
+    * add "--device=gpu" if your tensorflow support gpu.
+      * On GTX1080Ti you should be able to run 4-5 training process together.
+      * On GTX1060 you should be able to run 2-3 training together.
+    * Each training process is made up from 2 stages:
+      * Pre-training, log example:
+        ```
+INFO:root:average time for data accessing is 0.00070324587822
+INFO:root:average time for training is 0.0032548391819
+INFO:root:==============================
+INFO:root:step 3000
+INFO:root:------------------------------
+INFO:root:the portfolio value on test set is 2.24213
+log_mean is 0.00029086
+loss_value is -0.000291
+log mean without commission fee is 0.000378
+
+INFO:root:==============================
+
+        ```
+      * Backtest with rolling train, log example:
+        ```
+        DEBUG:root:==============================
+INFO:root:the step is 1433
+INFO:root:total assets are 17.732482 BTC
+        ```
+4. after that, check the result summary of the training in `nntrader/train_package/train_summary.csv`
+5. tune the hyper-parameters based on the summary, and go to 1 again.
 
 ## Logging
 There are three types of logging of each training.
@@ -68,52 +104,35 @@ There are three types of logging of each training.
 * The downloading speed could be very slow and sometimes even have error in China. See #4 for details.
 
 ## Back-test
-* Type `python main.py --mode=backtest --algo=1` to conduct
-back test with rolling train(i.e. online learning in supervised learning)
+* Type `python main.py --mode=backtest --algo=1` to execute
+backtest with rolling train(i.e. online learning in supervised learning)
 on the target model.
-paper trading
 * `--algo` could be either the name of traditional method or the index of training folder
 
 ## Tradition Agent
-see progress on [wiki](https://github.com/ZhengyaoJiang/nntrader/wiki/Current-Progress-of-Traditional-Agents)
-
 OLPS summary:
 
 ![](https://github.com/DexHunter/nntrader/blob/dev/images/olps_algo.png)
 
 ## Ploting
-* type `python main.py --mode=plot --algos=crp,olmar,40 --labels=crp,olmar,nnagent
+* type `python main.py --mode=plot --algos=crp,olmar,1 --labels=crp,olmar,nnagent
 `,for example, to plot
 * `--algos` could be the name of the tdagent algorithms or
 the index of nnagent
-* `--labels` is the name that will be shown in the legend
+* `--labels` is the name of related algorithm that will be shown in the legend
 * result is
-![](http://oan6f7zbh.bkt.clouddn.com/17-4-23/91567996-file_1492914862957_4f40.png)
-* a sample csv file https://drive.google.com/open?id=0Bz5He3MSOBUtNnZFRGFaRUhDZW8
+![](http://static.zybuluo.com/rooftrellen/u75egf9roy9c2sju48v6uu6o/result.png)
 
 ## present backtest results in a table
-* type `python main.py --mode=table --algos=40,olmar,ons --labels=nntrader,olmar,ons`
+* type `python main.py --mode=table --algos=1,olmar,ons --labels=nntrader,olmar,ons`
 * `--algos` and `--lables` are the same as in plotting case
-* result is like:
+* result:
 ```
-          max_drawdown  portfolio_value  sharpe_ratio
-nntrader      0.360347       156.357158      0.099530
-olmar         0.452494         7.968085      0.045061
-ons           0.231059         1.799372      0.033449
+           average  max drawdown  negative day  negative periods  negative week  portfolio value  positive periods  postive day  postive week  sharpe ratio
+nntrader  1.001311      0.225874           781              1378            114        25.022516              1398         1995          2662      0.074854
+olmar     1.000752      0.604886          1339              1451           1217         4.392879              1319         1437          1559      0.035867
+ons       1.000231      0.217216          1144              1360            731         1.770931              1416         1632          2045      0.032605
+
 ```
 * use `--format` arguments to change the format of the table,
- could be `raw` `html` or `latex`
-    * sample of latex format:
-
-```
-\begin{tabular}{lrrr}
-\toprule
-{} &  max\_drawdown &  portfolio\_value &  sharpe\_ratio \\
-\midrule
-nntrader &      0.360347 &       156.357158 &      0.099530 \\
-olmar    &      0.452494 &         7.968085 &      0.045061 \\
-ons      &      0.231059 &         1.799372 &      0.033449 \\
-\bottomrule
-\end{tabular}
-
-```
+ could be `raw` `html` `csv` or `latex`. The default one is raw.
