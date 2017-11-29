@@ -63,7 +63,9 @@ Under the `nntrader/nntrader` directory, there is a json file called `net_config
       * On GTX1060 you should be able to run 2-3 training together.
     * Each training process is made up from 2 stages:
       * Pre-training, log example:
-        ```
+      
+      
+```
 INFO:root:average time for data accessing is 0.00070324587822
 INFO:root:average time for training is 0.0032548391819
 INFO:root:==============================
@@ -76,13 +78,15 @@ log mean without commission fee is 0.000378
 
 INFO:root:==============================
 
-        ```
+```
+        
+        
       * Backtest with rolling train, log example:
-        ```
+```
         DEBUG:root:==============================
 INFO:root:the step is 1433
 INFO:root:total assets are 17.732482 BTC
-        ```
+```
 4. after that, check the result summary of the training in `nntrader/train_package/train_summary.csv`
 5. tune the hyper-parameters based on the summary, and go to 1 again.
 
