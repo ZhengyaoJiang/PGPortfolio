@@ -84,7 +84,7 @@ class CNN(NeuralNetWork):
                                                   activation="softmax",
                                                   regularizer=layer["regularizer"],
                                                   weight_decay=layer["weight_decay"])
-            elif layer["type"] == "EIIE_Output":
+            elif layer["type"] == "EIIE_Output_WithW":
                 width = network.get_shape()[2]
                 height = network.get_shape()[1]
                 features = network.get_shape()[3]

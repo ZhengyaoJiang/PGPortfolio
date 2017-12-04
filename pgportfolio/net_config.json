@@ -3,7 +3,7 @@
   [
     {"filter_shape": [1, 2], "filter_number": 3, "type": "ConvLayer"},
     {"filter_number":10, "type": "EIIE_Dense", "regularizer": "L2", "weight_decay": 5e-9},
-    {"type": "EIIE_Output","regularizer": "L2", "weight_decay": 5e-8}
+    {"type": "EIIE_Output_WithW","regularizer": "L2", "weight_decay": 5e-8}
   ],
   "training":{
     "steps":80000,
@@ -22,7 +22,7 @@
     "global_period":1800,
     "feature_number":3,
     "test_portion":0.08,
-    "online":true,
+    "online":false,
     "start_date":"2015/07/01",
     "end_date":"2017/07/01",
     "volume_average_days":30

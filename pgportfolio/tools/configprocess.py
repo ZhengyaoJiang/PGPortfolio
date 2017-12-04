@@ -63,7 +63,8 @@ def fill_layers_default(layers):
         elif layer["type"] == "EIIE_LSTM" or layer["type"] == "EIIE_RNN":
             set_missing(layer, "dropouts", None)
         elif layer["type"] == "EIIE_Output" or\
-                layer["type"] == "Output_WithW":
+                layer["type"] == "Output_WithW" or\
+                layer["type"] == "EIIE_Output_WithW":
             set_missing(layer, "regularizer", None)
             set_missing(layer, "weight_decay", 0.0)
         elif layer["type"] == "DropOut":
