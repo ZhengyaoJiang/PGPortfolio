@@ -111,11 +111,11 @@ class NNAgent:
             loss_function = loss_function4
         elif self.__config["training"]["loss_function"] == "loss_function5":
             loss_function = loss_function5
-        elif self.__config["training"]["loss_function"] == "loss_function6" or "real_pv":
+        elif self.__config["training"]["loss_function"] == "loss_function6":
             loss_function = loss_function6
         elif self.__config["training"]["loss_function"] == "loss_function7":
             loss_function = loss_function7
-        elif self.__config["training"]["loss_function"] == "loss_function8" or "with_last_w":
+        elif self.__config["training"]["loss_function"] == "loss_function8":
             loss_function = with_last_w
 
         loss_tensor = loss_function()
