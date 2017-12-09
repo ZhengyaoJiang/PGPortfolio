@@ -37,8 +37,10 @@ This project would not have been finished without using the codes from the follo
 We welcome contributions from the community, including but not limited to:
 * Bug fixing
 * Interfacing to other markets such as stock, futures, options
+* Adding broker API (under `marketdata`)
+* More backtest strategies (under `tdagent`)
 
-## Risk Disclamer (for Live-trading)
+## Risk Disclaimer (for Live-trading)
 
 There is always risk of loss in trading. **All trading strategies are used at your own risk**
 
