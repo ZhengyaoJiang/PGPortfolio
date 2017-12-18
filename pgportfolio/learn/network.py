@@ -95,7 +95,10 @@ class CNN(NeuralNetWork):
                                                  regularizer=layer["regularizer"],
                                                  weight_decay=layer["weight_decay"])
                 network = network[:, :, 0, 0]
-                btc_bias = tf.zeros((self.input_num, 1))
+                #btc_bias = tf.zeros((self.input_num, 1))
+                btc_bias = tf.get_variable("btc_bias", [1, 1], dtype=tf.float32,
+                                       initializer=tf.zeros_initializer)
+                btc_bias = tf.tile(btc_bias, [self.input_num, 1])
                 network = tf.concat([btc_bias, network], 1)
                 self.voting = network
                 network = tflearn.layers.core.activation(network, activation="softmax")
