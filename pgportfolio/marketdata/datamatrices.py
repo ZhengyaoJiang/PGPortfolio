@@ -166,8 +166,9 @@ class DataMatrices:
         M = [self.get_submatrix(index) for index in indexs]
         M = np.array(M)
         X = M[:, :, :, :-1]
+        x = M[:, :, :, -2] / M[:, 0, None, :, -3]
         y = M[:, :, :, -1] / M[:, 0, None, :, -2]
-        return {"X": X, "y": y, "last_w": last_w, "setw": setw}
+        return {"X": X, "x": x, "y": y, "last_w": last_w, "setw": setw}
 
     # volume in y is the volume in next access period
     def get_submatrix(self, ind):
