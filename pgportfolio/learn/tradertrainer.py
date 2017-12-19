@@ -78,7 +78,7 @@ class TraderTrainer:
             feed = self.training_set
         else:
             raise ValueError()
-        result = self._agent.evaluate_tensors(feed["X"], feed["x"], feed["y"],last_w=feed["last_w"],
+        result = self._agent.evaluate_tensors(feed["X"],feed["y"],last_w=feed["last_w"],
                                               setw=feed["setw"], tensors=tensors)
         return result
 
@@ -136,11 +136,10 @@ class TraderTrainer:
     def next_batch(self):
         batch = self._matrix.next_batch()
         batch_input = batch["X"]
-        batch_x = batch["x"]
         batch_y = batch["y"]
         batch_last_w = batch["last_w"]
         batch_w = batch["setw"]
-        return batch_input, batch_x, batch_y, batch_last_w, batch_w
+        return batch_input, batch_y, batch_last_w, batch_w
 
     def __init_tensor_board(self, log_file_dir):
         tf.summary.scalar('benefit', self._agent.portfolio_value)
@@ -177,10 +176,10 @@ class TraderTrainer:
         total_training_time = 0
         for i in range(self.train_config["steps"]):
             step_start = time.time()
-            X, x, y, last_w, setw = self.next_batch()
+            x, y, last_w, setw = self.next_batch()
             finish_data = time.time()
             total_data_time += (finish_data - step_start)
-            self._agent.train(X, x, y, last_w=last_w, setw=setw)
+            self._agent.train(x, y, last_w=last_w, setw=setw)
             total_training_time += time.time() - finish_data
             if i % 1000 == 0 and log_file_dir:
                 logging.info("average time for data accessing is %s"%(total_data_time/1000))

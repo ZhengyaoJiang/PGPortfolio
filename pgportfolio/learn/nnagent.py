@@ -19,16 +19,11 @@ class NNAgent:
         self.__y = tf.placeholder(tf.float32, shape=[None,
                                                      self.__config["input"]["feature_number"],
                                                      self.__coin_number])
-        self.__x = tf.placeholder(tf.float32, shape=[None,
-                                                     self.__config["input"]["feature_number"],
-                                                     self.__coin_number])
-        self.__current_price = tf.concat([tf.ones([self.__net.input_num, 1]),
-                                       self.__x[:, 0, :]], 1)
         self.__future_price = tf.concat([tf.ones([self.__net.input_num, 1]),
                                        self.__y[:, 0, :]], 1)
-        self.__current_w = (self.__current_price * self.__net.output) /\
-                              tf.reduce_sum(self.__current_price * self.__net.output, axis=1)[:, None]
-        # tf.assert_equal(tf.reduce_sum(self.__current_w, axis=1), tf.constant(1.0))
+        self.__future_omega = (self.__future_price * self.__net.output) /\
+                              tf.reduce_sum(self.__future_price * self.__net.output, axis=1)[:, None]
+        # tf.assert_equal(tf.reduce_sum(self.__future_omega, axis=1), tf.constant(1.0))
         self.__commission_ratio = self.__config["trading"]["trading_consumption"]
         self.__pv_vector = tf.reduce_sum(self.__net.output * self.__future_price, reduction_indices=[1]) *\
                            (tf.concat([tf.ones(1), self.__pure_pc()], axis=0))
@@ -146,15 +141,14 @@ class NNAgent:
             raise ValueError()
         return train_step
 
-    def train(self, X, x, y, last_w, setw):
+    def train(self, x, y, last_w, setw):
         tflearn.is_training(True, self.__net.session)
-        self.evaluate_tensors(X, x, y, last_w, setw, [self.__train_operation])
+        self.evaluate_tensors(x, y, last_w, setw, [self.__train_operation])
 
-    def evaluate_tensors(self, X, x, y, last_w, setw, tensors):
+    def evaluate_tensors(self, x, y, last_w, setw, tensors):
         """
-        :param X: shape of (batch_size, feature_number, coin_number, window_size)
-        :param x: shape of (batch_size, feature_number, coin_number)
-        :param y: shape of (batch_size, feature_number, coin_number)
+        :param x:
+        :param y:
         :param last_w:
         :param setw: a function, pass the output w to it to fill the PVM
         :param tensors:
@@ -162,17 +156,15 @@ class NNAgent:
         """
         tensors = list(tensors)
         tensors.append(self.__net.output)
-        assert not np.any(np.isnan(X))
         assert not np.any(np.isnan(x))
         assert not np.any(np.isnan(y))
         assert not np.any(np.isnan(last_w)),\
             "the last_w is {}".format(last_w)
         results = self.__net.session.run(tensors,
-                                         feed_dict={self.__net.input_tensor: X,
-                                                    self.__x: x,
+                                         feed_dict={self.__net.input_tensor: x,
                                                     self.__y: y,
                                                     self.__net.previous_w: last_w,
-                                                    self.__net.input_num: X.shape[0]})
+                                                    self.__net.input_num: x.shape[0]})
         setw(results[-1][:, 1:])
         return results[:-1]
 
@@ -183,7 +175,7 @@ class NNAgent:
     # consumption vector (on each periods)
     def __pure_pc(self):
         c = self.__commission_ratio
-        w_t = self.__current_w[:self.__net.input_num-1]  # rebalanced
+        w_t = self.__future_omega[:self.__net.input_num-1]  # rebalanced
         w_t1 = self.__net.output[1:self.__net.input_num]
         mu = 1 - tf.reduce_sum(tf.abs(w_t1[:, 1:]-w_t[:, 1:]), axis=1)*c
         """
