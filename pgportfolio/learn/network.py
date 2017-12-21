@@ -97,7 +97,7 @@ class CNN(NeuralNetWork):
                 network = network[:, :, 0, 0]
                 btc_bias = tf.zeros((self.input_num, 1))
                 network = tf.concat([btc_bias, network], 1)
-                # self.voting = network # is it garbage?
+                self.voting = network
                 network = tflearn.layers.core.activation(network, activation="softmax")
 
             elif layer["type"] == "EIIE_LSTM" or\
