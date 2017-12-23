@@ -13,7 +13,7 @@ MIN_NUM_PERIOD = 3
 
 
 class DataMatrices:
-    def __init__(self, start, end, period, batch_size=50, volume_average_days=30, buffur_bias_ratio=0,
+    def __init__(self, start, end, period, batch_size=50, volume_average_days=30, buffer_bias_ratio=0,
                  market="poloniex", coin_filter=1, window_size=50, feature_number=3, test_portion=0.15,
                  portion_reversed=False, online=False, is_permed=False):
         """
@@ -65,12 +65,11 @@ class DataMatrices:
         self.__is_permed = is_permed
 
         self.__batch_size = batch_size
-        self.__replay_buffer = None
         self.__delta = 0  # the count of global increased
         end_index = self._train_ind[-1]
         self.__replay_buffer = rb.ReplayBuffer(start_index=self._train_ind[0],
                                                end_index=end_index,
-                                               sample_bias=buffur_bias_ratio,
+                                               sample_bias=buffer_bias_ratio,
                                                batch_size=self.__batch_size,
                                                coin_number=self.__coin_no,
                                                is_permed=self.__is_permed)
@@ -104,7 +103,7 @@ class DataMatrices:
                             period=input_config["global_period"],
                             coin_filter=input_config["coin_number"],
                             is_permed=input_config["is_permed"],
-                            buffur_bias_ratio=train_config["buffer_biased"],
+                            buffer_bias_ratio=train_config["buffer_biased"],
                             batch_size=train_config["batch_size"],
                             volume_average_days=input_config["volume_average_days"],
                             test_portion=input_config["test_portion"],

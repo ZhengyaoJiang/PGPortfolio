@@ -1,4 +1,4 @@
-This is the orinal implementation of our paper, A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem ([arXiv:1706.10059](https://arxiv.org/abs/1706.10059)), together with a toolkit of portfolio management research.
+This is the original implementation of our paper, A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem ([arXiv:1706.10059](https://arxiv.org/abs/1706.10059)), together with a toolkit of portfolio management research.
 
 * The deep reinforcement learning framework is the core part of the library.
 The method is basically the policy gradient on immediate reward.
@@ -29,7 +29,7 @@ Install Dependencies via `pip install -r requirements.txt`
 ## User Guide
 Please check out [User Guide](user_guide.md)
 
-## Acknownledgement
+## Acknowledgement
 This project would not have been finished without using the codes from the following open source projects:
 * [Online Portfolio Selection toolbox](https://github.com/OLPS/OLPS)
 
@@ -47,7 +47,7 @@ There is always risk of loss in trading. **All trading strategies are used at yo
 *The volumes of many cryptocurrency markets are still low. Market impact and slippage may badly affect the results during live trading.*
 
 ## Donation
-If you have made some profits because of this project or you just love reading our codes, please consider making a small donation to our ongoing projects via the following BTC or ETH address. All donations will be used as student stipents. 
+If you have made some profits because of this project or you just love reading our codes, please consider making a small donation to our ongoing projects via the following BTC or ETH address. All donations will be used as student stipends. 
 
 * BTC: [1PEHK1nVi8x4HQM1A67anyfYzdDFoqUo21](https://blockchain.info/address/1PEHK1nVi8x4HQM1A67anyfYzdDFoqUo21)
 * ETH: [0xa8197289e16C0cCad0a4838719ce11C9A920cfB7](https://etherscan.io/address/0xa8197289e16C0cCad0a4838719ce11C9A920cfB7)
