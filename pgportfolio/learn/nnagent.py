@@ -81,6 +81,10 @@ class NNAgent:
     def loss(self):
         return self.__loss
 
+    @property
+    def btc_bias(self):
+        return self.__net.btc_bias
+
     def recycle(self):
         tf.reset_default_graph()
         self.__net.session.close()

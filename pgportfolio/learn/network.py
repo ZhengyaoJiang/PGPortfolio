@@ -97,8 +97,9 @@ class CNN(NeuralNetWork):
                 network = network[:, :, 0, 0]
                 #btc_bias = tf.zeros((self.input_num, 1))
                 btc_bias = tf.get_variable("btc_bias", [1, 1], dtype=tf.float32,
-                                       initializer=tf.zeros_initializer)
+                                       initializer=tf.ones_initializer)
                 btc_bias = tf.tile(btc_bias, [self.input_num, 1])
+                self.btc_bias = btc_bias
                 network = tf.concat([btc_bias, network], 1)
                 self.voting = network
                 network = tflearn.layers.core.activation(network, activation="softmax")
