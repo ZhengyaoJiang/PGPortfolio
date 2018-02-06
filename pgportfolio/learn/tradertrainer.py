@@ -146,8 +146,8 @@ class TraderTrainer:
         tf.summary.scalar('log_mean', self._agent.log_mean)
         tf.summary.scalar('loss', self._agent.loss)
         tf.summary.scalar("log_mean_free", self._agent.log_mean_free)
-        self.summary = tf.summary.merge_all()
         tf.summary.histogram('btc_bias', self._agent.btc_bias)
+        self.summary = tf.summary.merge_all()
         location = log_file_dir
         self.network_writer = tf.summary.FileWriter(location + '/network',
                                                     self._agent.session.graph)
