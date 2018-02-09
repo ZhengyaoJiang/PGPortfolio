@@ -20,6 +20,10 @@ class NeuralNetWork:
         self.previous_w = tf.placeholder(tf.float32, shape=[None, rows])
         self._rows = rows
         self._columns = columns
+
+        self.layers_dict = {}
+        self.layer_count = 0
+
         self.output = self._build_network(layers)
 
     def _build_network(self, layers):
@@ -30,9 +34,6 @@ class CNN(NeuralNetWork):
     # input_shape (features, rows, columns)
     def __init__(self, feature_number, rows, columns, layers, device):
         NeuralNetWork.__init__(self, feature_number, rows, columns, layers, device)
-
-        self.layers_dict = {}
-        self.layer_count = 0
 
     def add_layer_to_dict(self, layer_type, tensor, weights=True):
 
@@ -101,7 +102,6 @@ class CNN(NeuralNetWork):
                                                   activation="softmax",
                                                   regularizer=layer["regularizer"],
                                                   weight_decay=layer["weight_decay"])
-                self.layers[layer["type"] + '_' + str(self.layer_count)] = network
             elif layer["type"] == "EIIE_Output_WithW":
                 width = network.get_shape()[2]
                 height = network.get_shape()[1]
