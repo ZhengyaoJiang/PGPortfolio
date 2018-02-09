@@ -82,8 +82,8 @@ class NNAgent:
         return self.__loss
 
     @property
-    def layers(self):
-        return self.__net.layers
+    def layers_dict(self):
+        return self.__net.layers_dict
 
     def recycle(self):
         tf.reset_default_graph()

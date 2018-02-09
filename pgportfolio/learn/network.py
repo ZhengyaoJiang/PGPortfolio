@@ -31,15 +31,15 @@ class CNN(NeuralNetWork):
     def __init__(self, feature_number, rows, columns, layers, device):
         NeuralNetWork.__init__(self, feature_number, rows, columns, layers, device)
 
-        self.layers = {}
+        self.layers_dict = {}
         self.layer_count = 0
 
     def add_layer_to_dict(self, layer_type, tensor, weights=True):
 
-        self.layers[layer_type + '_' + str(self.layer_count) + '_activation'] = tensor
+        self.layers_dict[layer_type + '_' + str(self.layer_count) + '_activation'] = tensor
         if weights:
-            self.layers[layer_type + '_' + str(self.layer_count) + '_W'] = tensor.W
-            self.layers[layer_type + '_' + str(self.layer_count) + '_b'] = tensor.b
+            self.layers_dict[layer_type + '_' + str(self.layer_count) + '_W'] = tensor.W
+            self.layers_dict[layer_type + '_' + str(self.layer_count) + '_b'] = tensor.b
         self.layer_count += 1
 
     # grenrate the operation, the forward computaion
