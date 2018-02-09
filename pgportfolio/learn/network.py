@@ -22,6 +22,15 @@ class NeuralNetWork:
         self._columns = columns
         self.output = self._build_network(layers)
 
+    def _build_network(self, layers):
+        pass
+
+
+class CNN(NeuralNetWork):
+    # input_shape (features, rows, columns)
+    def __init__(self, feature_number, rows, columns, layers, device):
+        NeuralNetWork.__init__(self, feature_number, rows, columns, layers, device)
+
         self.layers = {}
         self.layer_count = 0
 
@@ -32,15 +41,6 @@ class NeuralNetWork:
             self.layers[layer_type + '_' + str(self.layer_count) + '_W'] = tensor.W
             self.layers[layer_type + '_' + str(self.layer_count) + '_b'] = tensor.b
         self.layer_count += 1
-
-    def _build_network(self, layers):
-        pass
-
-
-class CNN(NeuralNetWork):
-    # input_shape (features, rows, columns)
-    def __init__(self, feature_number, rows, columns, layers, device):
-        NeuralNetWork.__init__(self, feature_number, rows, columns, layers, device)
 
     # grenrate the operation, the forward computaion
     def _build_network(self, layers):
