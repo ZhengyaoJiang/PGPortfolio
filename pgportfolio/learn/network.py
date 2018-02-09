@@ -22,6 +22,17 @@ class NeuralNetWork:
         self._columns = columns
         self.output = self._build_network(layers)
 
+        self.layers = {}
+        self.layer_count = 0
+
+    def add_layer_to_dict(self, layer_type, tensor, weights=True):
+
+        self.layers[layer_type + '_' + str(self.layer_count) + '_activation'] = tensor
+        if weights:
+            self.layers[layer_type + '_' + str(self.layer_count) + '_W'] = tensor.W
+            self.layers[layer_type + '_' + str(self.layer_count) + '_b'] = tensor.b
+        self.layer_count += 1
+
     def _build_network(self, layers):
         pass
 
@@ -43,6 +54,7 @@ class CNN(NeuralNetWork):
                                                               layer["activation_function"],
                                                               regularizer=layer["regularizer"],
                                                               weight_decay=layer["weight_decay"] )
+                self.add_layer_to_dict(layer["type"], network)
             elif layer["type"] == "DropOut":
                 network = tflearn.layers.core.dropout(network, layer["keep_probability"])
             elif layer["type"] == "EIIE_Dense":
@@ -54,6 +66,7 @@ class CNN(NeuralNetWork):
                                                  layer["activation_function"],
                                                  regularizer=layer["regularizer"],
                                                  weight_decay=layer["weight_decay"])
+                self.add_layer_to_dict(layer["type"], network)
             elif layer["type"] == "ConvLayer":
                 network = tflearn.layers.conv_2d(network, int(layer["filter_number"]),
                                                  allint(layer["filter_shape"]),
@@ -62,6 +75,7 @@ class CNN(NeuralNetWork):
                                                  layer["activation_function"],
                                                  regularizer=layer["regularizer"],
                                                  weight_decay=layer["weight_decay"])
+                self.add_layer_to_dict(layer["type"], network)
             elif layer["type"] == "MaxPooling":
                 network = tflearn.layers.conv.max_pool_2d(network, layer["strides"])
             elif layer["type"] == "AveragePooling":
@@ -73,10 +87,13 @@ class CNN(NeuralNetWork):
                 network = tflearn.layers.conv_2d(network, 1, [1, width], padding="valid",
                                                  regularizer=layer["regularizer"],
                                                  weight_decay=layer["weight_decay"])
+                self.add_layer_to_dict(layer["type"], network)
                 network = network[:, :, 0, 0]
                 btc_bias = tf.ones((self.input_num, 1))
+                self.add_layer_to_dict(layer["type"], network)
                 network = tf.concat([btc_bias, network], 1)
                 network = tflearn.layers.core.activation(network, activation="softmax")
+                self.add_layer_to_dict(layer["type"], network, weights=False)
             elif layer["type"] == "Output_WithW":
                 network = tflearn.flatten(network)
                 network = tf.concat([network,self.previous_w], axis=1)
@@ -84,6 +101,7 @@ class CNN(NeuralNetWork):
                                                   activation="softmax",
                                                   regularizer=layer["regularizer"],
                                                   weight_decay=layer["weight_decay"])
+                self.layers[layer["type"] + '_' + str(self.layer_count)] = network
             elif layer["type"] == "EIIE_Output_WithW":
                 width = network.get_shape()[2]
                 height = network.get_shape()[1]
@@ -94,15 +112,18 @@ class CNN(NeuralNetWork):
                 network = tflearn.layers.conv_2d(network, 1, [1, 1], padding="valid",
                                                  regularizer=layer["regularizer"],
                                                  weight_decay=layer["weight_decay"])
+                self.add_layer_to_dict(layer["type"], network)
                 network = network[:, :, 0, 0]
                 #btc_bias = tf.zeros((self.input_num, 1))
                 btc_bias = tf.get_variable("btc_bias", [1, 1], dtype=tf.float32,
-                                       initializer=tf.ones_initializer)
+                                       initializer=tf.zeros_initializer)
+                self.add_layer_to_dict(layer["type"], network)
                 btc_bias = tf.tile(btc_bias, [self.input_num, 1])
-                self.btc_bias = btc_bias
                 network = tf.concat([btc_bias, network], 1)
                 self.voting = network
+                self.add_layer_to_dict('voting', network, weights=False)
                 network = tflearn.layers.core.activation(network, activation="softmax")
+                self.add_layer_to_dict(layer["type"], network, weights=False)
 
             elif layer["type"] == "EIIE_LSTM" or\
                             layer["type"] == "EIIE_RNN":
