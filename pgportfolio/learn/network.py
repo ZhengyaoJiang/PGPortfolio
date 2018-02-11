@@ -38,9 +38,6 @@ class CNN(NeuralNetWork):
     def add_layer_to_dict(self, layer_type, tensor, weights=True):
 
         self.layers_dict[layer_type + '_' + str(self.layer_count) + '_activation'] = tensor
-        if weights:
-            self.layers_dict[layer_type + '_' + str(self.layer_count) + '_W'] = tensor.W
-            self.layers_dict[layer_type + '_' + str(self.layer_count) + '_b'] = tensor.b
         self.layer_count += 1
 
     # grenrate the operation, the forward computaion

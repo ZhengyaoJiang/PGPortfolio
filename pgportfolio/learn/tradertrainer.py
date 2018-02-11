@@ -148,6 +148,8 @@ class TraderTrainer:
         tf.summary.scalar("log_mean_free", self._agent.log_mean_free)
         for layer_key in self._agent.layers_dict:
             tf.summary.histogram(layer_key, self._agent.layers_dict[layer_key])
+        for var in tf.trainable_variables():
+            tf.summary.histogram(var.name, var)
         # tf.summary.histogram('btc_bias', self._agent.btc_bias)
         self.summary = tf.summary.merge_all()
         location = log_file_dir
