@@ -150,6 +150,9 @@ class TraderTrainer:
             tf.summary.histogram(layer_key, self._agent.layers_dict[layer_key])
         for var in tf.trainable_variables():
             tf.summary.histogram(var.name, var)
+        grads = tf.gradients(self._agent.loss, tf.trainable_variables())
+        for grad, var in grads:
+            tf.summary.histogram(var.name + '/gradient', grad)
         # tf.summary.histogram('btc_bias', self._agent.btc_bias)
         self.summary = tf.summary.merge_all()
         location = log_file_dir
