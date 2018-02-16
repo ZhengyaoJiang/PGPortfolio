@@ -146,6 +146,13 @@ class TraderTrainer:
         tf.summary.scalar('log_mean', self._agent.log_mean)
         tf.summary.scalar('loss', self._agent.loss)
         tf.summary.scalar("log_mean_free", self._agent.log_mean_free)
+        for layer_key in self._agent.layers_dict:
+            tf.summary.histogram(layer_key, self._agent.layers_dict[layer_key])
+        for var in tf.trainable_variables():
+            tf.summary.histogram(var.name, var)
+        grads = tf.gradients(self._agent.loss, tf.trainable_variables())
+        for grad in grads:
+            tf.summary.histogram(grad.name + '/gradient', grad)
         self.summary = tf.summary.merge_all()
         location = log_file_dir
         self.network_writer = tf.summary.FileWriter(location + '/network',
