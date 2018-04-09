@@ -3,7 +3,6 @@ import time
 import math
 import sys
 from datetime import datetime
-import logging
 
 if sys.version_info[0] == 3:
     from urllib.request import Request, urlopen
@@ -65,7 +64,6 @@ class Binance:
         elif command in PUBLIC_COMMANDS:
             url = 'https://www.binance.com/'
             url += command
-            logging.info(url + "?" + urlencode(args))
             ret = urlopen(Request(url + '?' + urlencode(args)))
             return self.convertToPoloniexFormat(convertionType, json.loads(ret.read().decode(encoding='UTF-8')))
         else:
