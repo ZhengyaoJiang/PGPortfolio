@@ -15,13 +15,13 @@ import logging
 class HistoryManager:
     # if offline ,the coin_list could be None
     # NOTE: return of the sqlite results is a list of tuples, each tuple is a row
-    def __init__(self, coin_number, end, volume_average_days=1, volume_forward=0, online=True):
+    def __init__(self, market, coin_number, end, volume_average_days=1, volume_forward=0, online=True):
         self.initialize_db()
         self.__storage_period = FIVE_MINUTES  # keep this as 300
         self._coin_number = coin_number
         self._online = online
         if self._online:
-            self._coin_list = CoinList(end, volume_average_days, volume_forward)
+            self._coin_list = CoinList(market, end, volume_average_days, volume_forward)
         self.__volume_forward = volume_forward
         self.__volume_average_days = volume_average_days
         self.__coins = None

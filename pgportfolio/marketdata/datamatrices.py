@@ -41,7 +41,7 @@ class DataMatrices:
         self.__features = type_list
         self.feature_number = feature_number
         volume_forward = get_volume_forward(self.__end-start, test_portion, portion_reversed)
-        self.__history_manager = gdm.HistoryManager(coin_number=coin_filter, end=self.__end,
+        self.__history_manager = gdm.HistoryManager(market=market, coin_number=coin_filter, end=self.__end,
                                                     volume_average_days=volume_average_days,
                                                     volume_forward=volume_forward, online=online)
         if market in ["poloniex", "binance"]:
