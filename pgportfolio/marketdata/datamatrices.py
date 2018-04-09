@@ -44,7 +44,7 @@ class DataMatrices:
         self.__history_manager = gdm.HistoryManager(coin_number=coin_filter, end=self.__end,
                                                     volume_average_days=volume_average_days,
                                                     volume_forward=volume_forward, online=online)
-        if market == "poloniex":
+        if market in ["poloniex", "binance"]:
             self.__global_data = self.__history_manager.get_global_panel(start,
                                                                          self.__end,
                                                                          period=period,

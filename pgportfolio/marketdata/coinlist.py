@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 from pgportfolio.marketdata.poloniex import Poloniex
+from pgportfolio.marketdata.binance import Binance
 from pgportfolio.tools.data import get_chart_until_success
 import pandas as pd
 from datetime import datetime
@@ -10,11 +11,14 @@ from pgportfolio.constants import *
 
 
 class CoinList(object):
-    def __init__(self, end, volume_average_days=1, volume_forward=0):
-        self._polo = Poloniex()
+    def __init__(self, market, end, volume_average_days=1, volume_forward=0):
+        if market == "binance":
+            self._market = Binance()
+        elif market == "poloniex":
+            self._market = Poloniex()
         # connect the internet to accees volumes
-        vol = self._polo.marketVolume()
-        ticker = self._polo.marketTicker()
+        vol = self._market.marketVolume()
+        ticker = self._market.marketTicker()
         pairs = []
         coins = []
         volumes = []
@@ -49,14 +53,14 @@ class CoinList(object):
 
     @property
     def allCoins(self):
-        return self._polo.marketStatus().keys()
+        return self._market.marketStatus().keys()
 
     @property
-    def polo(self):
-        return self._polo
+    def market(self):
+        return self._market
 
     def get_chart_until_success(self, pair, start, period, end):
-        return get_chart_until_success(self._polo, pair, start, period, end)
+        return get_chart_until_success(self._market, pair, start, period, end)
 
     # get several days volume
     def __get_total_volume(self, pair, global_end, days, forward):
