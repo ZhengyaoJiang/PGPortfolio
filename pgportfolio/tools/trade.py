@@ -28,7 +28,7 @@ def get_coin_name_list(config, online):
     end = end - (end % input_config["trade_period"])
     start = end - volume_forward - input_config["volume_average_days"] * DAY
     end = end - volume_forward
-    coins = HistoryManager(input_config["coin_number"], end,
+    coins = HistoryManager(input_config["market"], input_config["coin_number"], end,
                            volume_forward=volume_forward,
                            volume_average_days=input_config["volume_average_days"],
                            online=online).\
