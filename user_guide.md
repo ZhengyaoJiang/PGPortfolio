@@ -1,16 +1,41 @@
 # User Guide
+
+## Quickstart
+
+1. Edit [`pgportfolio/net_config.json`](pgportfolio/net_config.json)
+2. Generate an agent:
+```
+python main.py --mode=generate --repeat=1
+```
+3. Download the data:
+```
+python main.py --mode=download_data
+```
+4. Train the agent:
+```
+python main.py --mode=train --processes=1
+```
+5. Compare the result with other algorithms:
+```
+python main.py --mode=plot --algos=crp,olmar,1 --labels=crp,olmar,nnagent
+python main.py --mode=table --algos=1,olmar,ons --labels=nntrader,olmar,ons`
+```
+
+See below for details on each step.
+
 ## Configuration File
-Under the `nntrader/nntrader` directory, there is a json file called `net_config.json`,
- holding all the configuration of the agent and could be modified outside the program code.
+`pgportfolio/net_config.json` contains all the configuration parameters. The software can be configured by modifying this file and without any changes to the code.
+
+Here is a description of the parameters in the configuration file.
 ### Network Topology
 * `"layers"`
     * layers list of the CNN, including the output layer
     * `"type"`
         * domain is {"ConvLayer", "FullyLayer", "DropOut", "MaxPooling",
         "AveragePooling", "LocalResponseNormalization", "SingleMachineOutput",
-        "LSTMSingleMachine", "RNNSingleMachine"}
+        "LSTMSingleMachine", "RNNSingleMachine", "EIIE_Dense", "EIIE_Output_WithW"}
     * `"filter shape"`
-        * shape of the filter (kernal) of the Convolution Layer
+        * shape of the filter (kernel) of the Convolutional Layer
 * `"input"`
     * `"window_size"`
         * number of columns of the input matrix
@@ -27,111 +52,191 @@ Under the `nntrader/nntrader` directory, there is a json file called `net_config
 * `"input "`
     * `"start_date"`
         * start date of the global data matrix
-        * format is yyyy/MM/dd
+        * format is YYYY/MM/DD
     * `"end_date"`
         * start date of the global data matrix
-        * format is yyyy/MM/dd
-        * The performance could varied a lot in different time ranges.
+        * format is YYYY/MM/DD
+        * Performance can vary a lot in different time ranges.
     * `"volume_average_days"`
         * number of days of volume used to select the coins
     * `"test_portion"`
-        * portion of backtest data, ranging from 0 to 1. The left is training data.
+        * portion of backtest data, ranging from 0 to 1. Example: 0.08 means that the initial 92% of the global data matrix is used for training and the following 8% is used for testing. This version of the library does not allow for separate validation and test periods.
     * `"global_period"`
-        * trading period and period of prices in input window.
-        * should be a multiple of 300 (seconds)
+        * trading period and period of prices in input window, i.e. duration of each candlestick.
+        * should be a multiple of 300 (seconds). Default value is 1800 i.e. half an hour.
     * `"coin_number"`
         * number of assets to be traded.
         * does not include cash (i.e. btc)
     * `"online"`
-        * if it is not online, the program will select coins and generate inputs
-        from the local database.
-        * if it is online, new data that dose not exist in the database would be saved
+        * `true`: new data is retrieved from the exchange and stored in the local database
+        * `false`: coin selection and input data is generated from the local database.
 
-## Training and Tuning the hyper-parameters
-1. First, modify the `nntrader/nntrader/net_config.json` file.
-2. make sure current directory is under `nntrader` and type `python main.py --mode=generate --repeat=1`
-    * this will make 1 subfolders under the `train_package`
-    * in each subfloder, there is a copy of the `net_config.json`
-    * `--repeat=n`, n could followed by any positive integers. The random seed of each the subfolder is from 0 to n-1 sequentially.
-      * Notably, random seed could also affect the performance in a large scale.
-3. type `python main.py --mode=train --processes=1`
-    * this will start training one by one of the n floders created just now
-    * do not start more than 1 processes if you want to download data online
-    * "--processes=n" means start n processes running parallely.
-    * add "--device=gpu" if your tensorflow support gpu.
-      * On GTX1080Ti you should be able to run 4-5 training process together.
-      * On GTX1060 you should be able to run 2-3 training together.
-    * Each training process is made up from 2 stages:
-      * Pre-training, log example:
-      
-      
+
+### Training
+* `"training"`
+    * training hyperparameters
+    * `"steps"`
+        * the total number of steps performed during training
+    * `"learning_rate"`
+        * learning rate for the gradient descent
+    * `"batch_size"`
+        * TODO
+    * `"buffer_biased"`
+        * TODO
+    * `"snap_shot"`
+        * TODO
+    * `"fast_train"`
+        * TODO
+    * `"training_method"`
+        * Optimizer used to minimize the loss
+    * `"loss_function"`
+        * Loss function
+
+### Trading
+* `"trading"`
+    * `"trading_consumption"`
+        * TODO
+    * `"rolling_training_steps"`
+        * TODO
+    * `"learning_rate"`
+        * TODO
+    * `"buffer_biased"`
+        * TODO
+
+## Training the agent
+In order to train the agent perform the following steps:
+1. _(Optional)_ Modify the configuration in  `pgportfolio/net_config.json` according to your desired agent configuration.
+
+2. From the main folder, run:
 ```
-INFO:root:average time for data accessing is 0.00070324587822
-INFO:root:average time for training is 0.0032548391819
-INFO:root:==============================
-INFO:root:step 3000
-INFO:root:------------------------------
-INFO:root:the portfolio value on test set is 2.24213
-log_mean is 0.00029086
-loss_value is -0.000291
-log mean without commission fee is 0.000378
-
-INFO:root:==============================
-
+python main.py --mode=generate --repeat=n
 ```
-        
-        
-      * Backtest with rolling train, log example:
-```
-        DEBUG:root:==============================
-INFO:root:the step is 1433
-INFO:root:total assets are 17.732482 BTC
-```
-4. after that, check the result summary of the training in `nntrader/train_package/train_summary.csv`
-5. tune the hyper-parameters based on the summary, and go to 1 again.
+where `n` is a positive integer indicating the number of replicas you would like to train.
+This will create `n` subfolders in the `train_package` folder. Each subfolder contains a copy of the `net_config.json` file.
+The random seed of each the subfolder runs from `0` to `n-1`. _*Please note that agents with different random seeds can have very different performances.*_
 
-## Logging
-There are three types of logging of each training.
-* In each subfloder
-    * There is a text file called `programlog`, which is the log generated by the running programming.
-    * There is a `tensorboard` folder saves the data about the training process which could be viewed by tensorboard.
-        * type `tensorboard --logdir=train_package/1` to use tensorboard
-* The summary infomation of this training, including network configuration, portfolio value on validation set and test set etc., will be saved in the `train_summary.csv` under `train_pakage` folder
+3. (Optional) Download the data with the command:
+```
+python main.py --mode=download_data
+```
 
-## Save and Restore of the Model
-* The trained weights of the network are saved at `train_package/1` named as `netfile` (including 3 files). 
+4. Train your agents with the command:
+```
+python main.py --mode=train --processes=1
+```
+    * This will start training the `n` agents one at a time. Do not start more than 1 processes if you want to download data online.
+    * `--processes=m` starts `m` parallel training processes
+    * `--device=gpu` can be added if your tensorflow supports GPU.
+      * On _GTX1080Ti_ you should be able to run 4-5 training process simultaneously.
+      * On _GTX1060_ you should be able to run 2-3 training simultaneously.
+
+5. Each training run is composed of 2 phases: **Training** and **Backtest**.
+
+    * During the **Training** phase, the agent is trained on the training fraction of the global data matrix. The log looks like this:
+
+  ```
+  average time for data accessing is 0.0015480489730834962
+  average time for training is 0.009850282192230225
+  ==============================
+  step 2000
+  ------------------------------
+  the portfolio value on test set is 2.118205
+  log_mean is 0.00027037683
+  loss_value is -0.000270
+  log mean without commission fee is 0.000341
+  ```
+
+  * After training is completed, the **Backtest** phase begins. This uses a rolling training window, i.e. it performs online learning in supervised learning. The log looks like this:
+
+  ```
+  the step is 536
+  total assets are 4.314677 BTC
+  ```
+
+6. Once training and backtest are completed, you can check the result summary of the training in `train_package/train_summary.csv`
+
+7. Tune the hyper-parameters based on the summary, and go to 1 again.
+
+## Training results
+Once training is completed, each subfolder in `train_package` will contain several output artifacts:
+
+* `programlog`: a log file generated during training. This contains the same information that was visualized in output during training and backtesting.
+
+* `tensorboard`: a folder containing the events for thensorboard. You can visualize its content by running tensorboard: e.g. `tensorboard --logdir=train_package/1`.
+
+* ` netfile.*`: the model checkpoints. These can be used to restore a previously trained model.
+
+* `train_summary.csv`: a file with summary information like: network configuration, portfolio value on validation set and test set etc.
+
 
 ## Download Data
-* Type `python main.py --mode=download_data` you can download data without starting training
-* The program will use the configurations in `nntrader/nntrader/net_config` to select coins and
-  download necessary data to train the network.
-* The downloading speed could be very slow and sometimes even have error in China.
-* For those who cann't download data, please check the first release where there is a `Data.db` file, put it in the database folder. Make sure the `online` in `input` in `net_config.json` to be `false` and run the example.
-  * Note that using the this file, you shouldn't make any changes to input data configuration(For example `start_date`, `end_date` or `coin_number`) otherwise incorrect result might be presented.
-## Back-test
-* Type `python main.py --mode=backtest --algo=1` to execute
-backtest with rolling train(i.e. online learning in supervised learning)
-on the target model.
-* `--algo` could be either the name of traditional method or the index of training folder
+To prefetch data to the local database without starting a training run:
 
-## Tradition Agent
-OLPS summary:
+```
+python main.py --mode=download_data
+```
 
-![](https://github.com/DexHunter/nntrader/blob/dev/images/olps_algo.png)
+The program will use the configurations in `pgportfolio/net_config.json` to select coins and download necessary data to train the network.
+* Download speed could be very slow and sometimes even have errors in China.
+* If you can cannot download data, please check the first release where there is a `Data.db` file. Copy the file into the database folder. Make sure the `online` in `input` in `net_config.json` to be `false` and run the example. Note that using the this file, you shouldn't make any changes to input data configuration (for example `start_date`, `end_date` or `coin_number`) otherwise the results may not be correct.
 
-## Ploting
-* type `python main.py --mode=plot --algos=crp,olmar,1 --labels=crp,olmar,nnagent
-`,for example, to plot
-* `--algos` could be the name of the tdagent algorithms or
-the index of nnagent
-* `--labels` is the name of related algorithm that will be shown in the legend
-* result is
+
+## Backtest
+To execute backtest with rolling training (i.e. online learning in supervised learning) on the target model run:
+
+```
+python main.py --mode=backtest --algo=1
+```
+
+* `--algo` could be either the name of traditional method or the index of the training folder
+
+## Traditional algorithms
+The library contains the implementation of the following traditional algorithms:
+* `anticor1`: TODO
+* `anticor2`: TODO
+* `bcrp`: TODO
+* `best`: TODO
+* `bk`: TODO
+* `bnn`: TODO
+* `cornk`: TODO
+* `cornu`: TODO
+* `crp`: TODO
+* `cwmr_std`: TODO
+* `cwmr_var`: TODO
+* `eg`: TODO
+* `m0`: TODO
+* `olmar`: TODO
+* `olmar2`: TODO
+* `ons`: TODO
+* `pamr`: TODO
+* `rmr`: TODO
+* `sp`: TODO
+* `ubah`: TODO
+* `up`: TODO
+* `wmamr`: TODO
+
+## Plotting
+To plot the results run:
+
+```
+python main.py --mode=plot --algos=crp,olmar,1 --labels=crp,olmar,nnagent
+```
+
+* `--algos`: comma separated list of traditional algorithms and agent indexes
+* `--labels`: comma separated list of names that appear in the plot legend
+
+Example result plot:
 ![](http://static.zybuluo.com/rooftrellen/u75egf9roy9c2sju48v6uu6o/result.png)
 
-## present backtest results in a table
-* type `python main.py --mode=table --algos=1,olmar,ons --labels=nntrader,olmar,ons`
-* `--algos` and `--lables` are the same as in plotting case
-* result:
+## Table summary
+You can present a summary of the results typing:
+
+```
+python main.py --mode=table --algos=1,olmar,ons --labels=nntrader,olmar,ons
+```
+
+* `--algos` and `--labels` are the same as in plotting case. Labels indicate the row indexes. The result table looks like this:
+
 ```
            average  max drawdown  negative day  negative periods  negative week  portfolio value  positive periods  postive day  postive week  sharpe ratio
 nntrader  1.001311      0.225874           781              1378            114        25.022516              1398         1995          2662      0.074854
