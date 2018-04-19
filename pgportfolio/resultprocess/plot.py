@@ -1,4 +1,9 @@
 from __future__ import absolute_import, print_function, division
+import matplotlib
+import os
+if "DISPLAY" not in os.environ.keys():
+    print("Display not found, using Agg backend")
+    matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib import rc
@@ -166,4 +171,3 @@ def _load_from_summary(index, config):
     if not check_input_same(config, json.loads(dataframe.loc[int(index)]["config"])):
         raise ValueError("the date of this index is not the same as the default config")
     return np.fromstring(history_string, sep=",")[:-1]
-
