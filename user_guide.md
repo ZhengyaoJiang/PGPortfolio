@@ -59,6 +59,8 @@ Here is a description of the parameters in the configuration file.
         * Performance can vary a lot in different time ranges.
     * `"volume_average_days"`
         * number of days of volume used to select the coins
+    * `"market"`
+        * The exchange to use to retrieve data.
     * `"test_portion"`
         * portion of backtest data, ranging from 0 to 1. Example: 0.08 means that the initial 92% of the global data matrix is used for training and the following 8% is used for testing. This version of the library does not allow for separate validation and test periods.
     * `"global_period"`
