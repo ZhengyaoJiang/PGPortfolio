@@ -40,7 +40,7 @@ class DataMatrices:
         type_list = get_type_list(feature_number)
         self.__features = type_list
         self.feature_number = feature_number
-        volume_forward = get_volume_forward(self.__end-start, test_portion, portion_reversed)
+        volume_forward = get_volume_forward(self.__end - start, test_portion, portion_reversed)
         self.__history_manager = gdm.HistoryManager(market=market, coin_number=coin_filter, end=self.__end,
                                                     volume_average_days=volume_average_days,
                                                     volume_forward=volume_forward, online=online)
@@ -124,7 +124,7 @@ class DataMatrices:
 
     @property
     def test_indices(self):
-        return self._test_ind[:-(self._window_size+1):]
+        return self._test_ind[:-(self._window_size + 1):]
 
     @property
     def num_test_samples(self):
@@ -136,7 +136,7 @@ class DataMatrices:
         Let it be None if in the backtest case.
         """
         self.__delta += 1
-        self._train_ind.append(self._train_ind[-1]+1)
+        self._train_ind.append(self._train_ind[-1] + 1)
         appended_index = self._train_ind[-1]
         self.__replay_buffer.append_experience(appended_index)
 
@@ -158,7 +158,7 @@ class DataMatrices:
 
     def __pack_samples(self, indexs):
         indexs = np.array(indexs)
-        last_w = self.__PVM.values[indexs-1, :]
+        last_w = self.__PVM.values[indexs - 1, :]
 
         def setw(w):
             self.__PVM.iloc[indexs, :] = w
@@ -170,7 +170,7 @@ class DataMatrices:
 
     # volume in y is the volume in next access period
     def get_submatrix(self, ind):
-        return self.__global_data.values[:, :, ind:ind+self._window_size+1]
+        return self.__global_data.values[:, :, ind:ind + self._window_size + 1]
 
     def __divide_data(self, test_portion, portion_reversed):
         train_portion = 1 - test_portion
