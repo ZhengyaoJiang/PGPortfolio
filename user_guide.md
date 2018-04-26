@@ -80,11 +80,11 @@ Here is a description of the parameters in the configuration file.
     * `"steps"`
         * the total number of steps performed during training
     * `"learning_rate"`
-        * learning rate for the gradient descent
+        * Parameter α (i.e. the step size) of the Adam optimization
     * `"batch_size"`
-        * TODO
+        * Size of mini-batch during training
     * `"buffer_biased"`
-        * TODO
+        * Parameter of geometric distribution when selecting online training sample batches
     * `"snap_shot"`
         * TODO
     * `"fast_train"`
@@ -92,18 +92,18 @@ Here is a description of the parameters in the configuration file.
     * `"training_method"`
         * Optimizer used to minimize the loss
     * `"loss_function"`
-        * Loss function
+        * Loss function. Several options are provided in the 
 
 ### Trading
 * `"trading"`
     * `"trading_consumption"`
-        * TODO
+        * Rate of commission fee applied to each transaction
     * `"rolling_training_steps"`
-        * TODO
+        * Number of online training steps for each period during cross-validation and back-tests
     * `"learning_rate"`
-        * TODO
+        * Parameter α (i.e. the step size) of the Adam optimization (TODO: duplicate?)
     * `"buffer_biased"`
-        * TODO
+        * Parameter of geometric distribution when selecting online training sample batches (TODO: duplicate?)
 
 ## Training the agent
 In order to train the agent perform the following steps:
