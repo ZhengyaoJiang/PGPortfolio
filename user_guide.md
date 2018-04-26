@@ -88,7 +88,7 @@ Here is a description of the parameters in the configuration file.
     * `"snap_shot"`
         * TODO
     * `"fast_train"`
-        * TODO
+        * Default True. False adds logging but it's currently broken.
     * `"training_method"`
         * Optimizer used to minimize the loss
     * `"loss_function"`
@@ -196,7 +196,7 @@ python main.py --mode=backtest --algo=1
 The library contains the implementation of the following traditional algorithms and benchmarks:
 
 #### Benchmarks
-* `ubah`: Uniform Buy And Hold.
+* `ubah`: Uniform Buy And Hold. Equally spread the total fund into the preselected assets and hold them without making any purchases or selling until the end.
 * `best`: Buy the best stock in hindsight.
 * `crp`: Constant Rebalanced Portfolios. Rebalances to a preset portfolio at the beginning of every period.
 * `bcrp`: Best Constant Rebalanced Portfolio. Sets the portfolio as the portfolio that maximizes the terminal wealth in hindsight.
@@ -227,10 +227,11 @@ among two market windows via correlation coefficient.
 * `cornu`: Variation of the above.
 
 #### Other strategies
-* `m0`: TODO
-* `rmr`: TODO
+* `m0`: Markov of order zero [(Borodin et al., 2000)](https://pdfs.semanticscholar.org/5693/0f8457aa5e612db8f25d2b0d2f8a989344a5.pdf).
+* `rmr`: Robust Median Reversion [(Huang et al., 2013)](https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=3326). Exploit median reversion
+via robust L1-estimator and Passive Aggressive online learning.
 * `sp`: TODO
-* `wmamr`: TODO
+* `wmamr`: Weighted Moving Average Mean Reversion [(Gao and Zhang, 2013)](https://ieeexplore.ieee.org/document/6643896/)
 
 For more information see the [OLPS toolbox manual](http://www.mysmu.edu.sg/faculty/chhoi/olps/OLPS_toolbox_manual.pdf).
 
