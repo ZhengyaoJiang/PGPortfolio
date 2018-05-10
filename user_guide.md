@@ -110,7 +110,7 @@ There are three types of logging of each training.
   * Note that using the this file, you shouldn't make any changes to input data configuration(For example `start_date`, `end_date` or `coin_number`) otherwise incorrect result might be presented.
   
 ## Back-test
-*Note: Before back-testing, you need to train first*
+*Note: Before back-testing, you need to suceessfully finish training of algo first*
 * Type `python main.py --mode=backtest --algo=1` to execute
 backtest with rolling train(i.e. online learning in supervised learning)
 on the target model.
