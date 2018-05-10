@@ -11,5 +11,5 @@ setup(
     author="Zhengyao Jiang, Dixing Xu, Jinjun Liang",
     author_email="",
     packages=find_packages(exclude=("tests", "docs"),
-                           include=("matplotlib", "tensorflow", "tflearn", "pandas",
-                                    "pandas", "cvxopt", "scipy")))
+                           include=("tensorflow", "tflearn", "pympler",
+                                    "cvxopt", "seaborn", "pandas")))
