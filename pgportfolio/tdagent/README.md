@@ -12,12 +12,14 @@ Transfer portfolio weights from the underperforming assets (experts) to the outp
 * `up`: Universal Portfolios (Cover, 1991). Uniformly buys and holds the whole set of CRP experts.
 * `eg`: Exponential Gradient. Tracks the best stock and adopts regularization term to constrain the deviation from previous portfolio.
 * `ons`: Online Newton Step (Agarwal et al., 2006). Tracks the best CRP to date and adopts a L2-norm regularization to constrain portfolio’s variability.
+* `sp`: Switching Portfolios (Y. Singer 1997)
+
 
 #### Follow the Loser traditional algorithms
 Assume underperforming assets will revert, move portfolio weights from the outperforming assets to the underperforming assets.
 * `anticor1`: Anti Correlation (Borodin et al., 2004). Transfers the wealth from the outperforming stocks to the underperforming stocks via their cross-correlation and auto-correlation
 * `anticor2`: Variation of the above.
-* `pamr`: Passive Aggressive Mean Reversio (Li et al., 2012). Explicitly track the worst stocks, while adopting regularization techniques to constrain the deviation from last portfolio.
+* `pamr`: Passive Aggressive Mean Reversion (Li et al., 2012). Explicitly track the worst stocks, while adopting regularization techniques to constrain the deviation from last portfolio.
 * `cwmr_var`: Confidence Weighted Mean Reversion (Li et al., 2013). Models the portfolio vector with a Gaussian distribution, and explicitly updates the distribution following the mean reversion principle.
 * `cwmr_std`: Variation of the above.
 * `olmar`: Online Moving Average Reversion. Explicitly predicts next price relatives following the mean reversion idea. Uses simple moving average.
@@ -36,7 +38,6 @@ among two market windows via correlation coefficient.
 * `m0`: Markov of order zero [(Borodin et al., 2000)](https://pdfs.semanticscholar.org/5693/0f8457aa5e612db8f25d2b0d2f8a989344a5.pdf).
 * `rmr`: Robust Median Reversion [(Huang et al., 2013)](https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=3326). Exploit median reversion
 via robust L1-estimator and Passive Aggressive online learning.
-* `sp`: TODO
 * `wmamr`: Weighted Moving Average Mean Reversion [(Gao and Zhang, 2013)](https://ieeexplore.ieee.org/document/6643896/)
 
 For more information see the [OLPS toolbox manual](http://www.mysmu.edu.sg/faculty/chhoi/olps/OLPS_toolbox_manual.pdf).
