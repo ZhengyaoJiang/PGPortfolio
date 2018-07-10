@@ -106,7 +106,7 @@ There are three types of logging of each training.
 * The program will use the configurations in `nntrader/nntrader/net_config` to select coins and
   download necessary data to train the network.
 * The downloading speed could be very slow and sometimes even have error in China.
-* For those who cann't download data, please check the first release where there is a `Data.db` file, put it in the database folder. Make sure the `online` in `input` in `net_config.json` to be `false` and run the example.
+* For those who can't download data, please check the first release where there is a `Data.db` file, put it in the database folder. Make sure the `online` in `input` in `net_config.json` to be `false` and run the example.
   * Note that using the this file, you shouldn't make any changes to input data configuration(For example `start_date`, `end_date` or `coin_number`) otherwise incorrect result might be presented.
   
 ## Back-test
