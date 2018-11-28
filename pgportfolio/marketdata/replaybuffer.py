@@ -10,7 +10,7 @@ class ReplayBuffer:
         :param end_index: end index of the training set on the global data matrices
         """
         self.__coin_number = coin_number
-        self.__experiences = [Experience(i) for i in range(start_index, end_index)]
+        self.__experiences = [Experience(i) for i in range(start_index, end_index+1)]
         self.__is_permed = is_permed
         # NOTE: in order to achieve the previous w feature
         self.__batch_size = batch_size
