@@ -188,6 +188,15 @@ class HistoryManager:
             connection.close()
 
     def __fill_data(self, start, end, coin, cursor):
+        duration = 7819200 # three months
+        bk_start = start
+        for bk_end in range(start+duration-1, end, duration):
+            self.__fill_part_data(bk_start, bk_end, coin, cursor)
+            bk_start += duration
+        if bk_start < end:
+            self.__fill_part_data(bk_start, end, coin, cursor)
+
+    def __fill_part_data(self, start, end, coin, cursor):
         chart = self._coin_list.get_chart_until_success(
             pair=self._coin_list.allActiveCoins.at[coin, 'pair'],
             start=start,
