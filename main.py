@@ -12,6 +12,12 @@ from pgportfolio.tools.trade import save_test_data
 from pgportfolio.tools.shortcut import execute_backtest
 from pgportfolio.resultprocess import plot
 
+# Workaround to fix collision with built in python "logging" module
+# See https://github.com/tensorflow/tensorflow/issues/26691
+import logging
+import absl.logging
+logging.root.removeHandler(absl.logging._absl_handler)
+absl.logging._warn_preinit_stderr = False
 
 def build_parser():
     parser = ArgumentParser()
