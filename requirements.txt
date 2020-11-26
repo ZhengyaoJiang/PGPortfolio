@@ -1,5 +1,5 @@
 numpy==1.16.4
-tensorflow==1.1.0
+tensorflow-gpu==1.15
 tflearn==0.3.2
 pympler==0.5
 cvxopt==1.1.9
