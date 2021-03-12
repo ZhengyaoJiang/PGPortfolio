@@ -3,9 +3,10 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 from pgportfolio.marketdata.coinlist import CoinList
+import xarray as xr
 import numpy as np
 import pandas as pd
-from pgportfolio.tools.data import panel_fillna
+from pgportfolio.tools.data import panel_fillna, serial_data_fillna
 from pgportfolio.constants import *
 import sqlite3
 from datetime import datetime
@@ -69,8 +70,7 @@ class HistoryManager:
         self.__checkperiod(period)
 
         time_index = pd.to_datetime(list(range(start, end+1, period)),unit='s')
-        panel = pd.Panel(items=features, major_axis=coins, minor_axis=time_index, dtype=np.float32)
-
+        panelxr = xr.DataArray(data=np.NaN, coords=[features, coins, time_index])
         connection = sqlite3.connect(DATABASE_DIR)
         try:
             for row_number, coin in enumerate(coins):
@@ -114,12 +114,15 @@ class HistoryManager:
                     serial_data = pd.read_sql_query(sql, con=connection,
                                                     parse_dates=["date_norm"],
                                                     index_col="date_norm")
-                    panel.loc[feature, coin, serial_data.index] = serial_data.squeeze()
-                    panel = panel_fillna(panel, "both")
+
+                    serial_data_squeezed = serial_data.squeeze()
+                    serial_data_squeezed = serial_data_squeezed.reindex(time_index)
+                    serial_data_squeezed = serial_data_fillna(serial_data_squeezed, "both")
+                    panelxr.loc[feature, coin, :] = serial_data_squeezed
         finally:
             connection.commit()
             connection.close()
-        return panel
+        return panelxr
 
     # select top coin_number of coins by volume from start to end
     def select_coins(self, start, end):
@@ -162,7 +165,7 @@ class HistoryManager:
         elif period == DAY:
             return
         else:
-            raise ValueError('peroid has to be 5min, 15min, 30min, 2hr, 4hr, or a day')
+            raise ValueError('period has to be 5min, 15min, 30min, 2hr, 4hr, or a day {}'.format(period))
 
     # add new history data into the database
     def update_data(self, start, end, coin):
