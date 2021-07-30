@@ -1,8 +1,9 @@
-This is the original implementation of our paper, A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem ([arXiv:1706.10059](https://arxiv.org/abs/1706.10059)), together with a toolkit of portfolio management research.
+This is the implementation of our paper, A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem ([arXiv:1706.10059](https://arxiv.org/abs/1706.10059)), together with a toolkit of portfolio management research.
 
-* The deep reinforcement learning framework is the core part of the library.
-The method is basically the policy gradient on immediate reward.
- One can configurate the topology, training method or input data in a separate json file. The training process will be recorded and user can visualize the training using tensorboard.
+* The policy optimization method we described in the paper is designed specifically for portfolio management problem.
+  * Differing from the general-purpose reinforcement learning algorithms, it has similar efficiency and robustness to supervized learning.
+  * This is because we formulate the problem as an immediate reward optimization problem regularised by transaction cost, which does not require a monte-carlo or bootstrapped estimation of the gradients.
+* One can configurate the topology, training method or input data in a separate json file. The training process will be recorded and user can visualize the training using tensorboard.
 Result summary and parallel training are allowed for better hyper-parameters optimization.
 * The financial-model-based portfolio management algorithms are also embedded in this library for comparision purpose, whose implementation is based on Li and Hoi's toolkit [OLPS](https://github.com/OLPS/OLPS).
 
@@ -44,10 +45,5 @@ We welcome contributions from the community, including but not limited to:
 
 There is always risk of loss in trading. **All trading strategies are used at your own risk**
 
-*The volumes of many cryptocurrency markets are still low. Market impact and slippage may badly affect the results during live trading.*
-
-## Donation
-If you have made some profits because of this project or you just love reading our codes, please consider making a small donation to our ongoing projects via the following BTC or ETH address. All donations will be used as student stipends. 
-
-* BTC: [1PEHK1nVi8x4HQM1A67anyfYzdDFoqUo21](https://blockchain.info/address/1PEHK1nVi8x4HQM1A67anyfYzdDFoqUo21)
-* ETH: [0xa8197289e16C0cCad0a4838719ce11C9A920cfB7](https://etherscan.io/address/0xa8197289e16C0cCad0a4838719ce11C9A920cfB7)
+* The project has been open-sourced for many years (since 2017). The market efficiency may have increased quite a lot since then. There is no guarantee the exact same algorithm can still work.
+* Although we tried to make assumptions closer to the situation in the real market, the results are all from backtest on static historical data. The slippage or market impact can always be a problem if you deploy it as a live trading bot.
