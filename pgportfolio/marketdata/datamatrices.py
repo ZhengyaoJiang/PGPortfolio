@@ -158,10 +158,10 @@ class DataMatrices:
 
     def __pack_samples(self, indexs):
         indexs = np.array(indexs)
-        last_w = self.__PVM.values[indexs-1, :]
+        last_w = self.__PVM.values[indexs+self._window_size-1, :]
 
         def setw(w):
-            self.__PVM.iloc[indexs, :] = w
+            self.__PVM.iloc[indexs+self._window_size, :] = w
         M = [self.get_submatrix(index) for index in indexs]
         M = np.array(M)
         X = M[:, :, :, :-1]
