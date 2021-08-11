@@ -80,6 +80,10 @@ class CNN(NeuralNetWork):
                 network = tflearn.layers.conv.avg_pool_2d(network, layer["strides"])
             elif layer["type"] == "LocalResponseNormalization":
                 network = tflearn.layers.normalization.local_response_normalization(network)
+            elif layer["type"] == "BatchNormalization":
+                network = tf.layers.batch_normalization(network, axis=-1)
+            elif layer["type"] == "ReLU":
+                network = tflearn.activations.relu(network)
             elif layer["type"] == "EIIE_Output":
                 width = network.get_shape()[2]
                 network = tflearn.layers.conv_2d(network, 1, [1, width], padding="valid",

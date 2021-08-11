@@ -3,6 +3,7 @@ import sys
 import time
 from datetime import datetime
 import json
+import commentjson
 import os
 rootpath = os.path.dirname(os.path.abspath(__file__)).\
     replace("\\pgportfolio\\tools", "").replace("/pgportfolio/tools","")
@@ -67,7 +68,9 @@ def fill_layers_default(layers):
                 layer["type"] == "EIIE_Output_WithW":
             set_missing(layer, "regularizer", None)
             set_missing(layer, "weight_decay", 0.0)
-        elif layer["type"] == "DropOut":
+        elif layer["type"] == "BatchNormalization" or \
+                layer["type"] == "ReLU" or \
+                layer["type"] == "LocalResponseNormalization":
             pass
         else:
             raise ValueError("layer name {} not supported".format(layer["type"]))
@@ -104,7 +107,14 @@ def load_config(index=None):
             config = json.load(file)
     else:
         with open(rootpath+"/pgportfolio/" + "net_config.json") as file:
-            config = json.load(file)
+            config = commentjson.load(file)
+            if "networks" in config:
+                net_configs = []
+                for net in config['networks']:
+                    net_configs.append(
+                        preprocess_config(net['config'])
+                    )
+                return net_configs
     return preprocess_config(config)
 
 

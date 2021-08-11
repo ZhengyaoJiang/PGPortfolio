@@ -18,14 +18,24 @@ def add_packages(config, repeat=1):
         max_dir_num = 0
     indexes = []
 
-    for i in range(repeat):
-        max_dir_num += 1
-        directory = package_dir+"/"+str(max_dir_num)
-        config["random_seed"] = i
-        os.makedirs(directory)
-        indexes.append(max_dir_num)
-        with open(directory + "/" + "net_config.json", 'w') as outfile:
-            json.dump(config, outfile, indent=4, sort_keys=True)
+    if isinstance(config, dict):
+        for i in range(repeat):
+            max_dir_num += 1
+            directory = package_dir+"/"+str (max_dir_num)
+            config["random_seed"] = i
+            os.makedirs(directory)
+            indexes.append(max_dir_num)
+            with open(directory + "/" + "net_config.json", 'w') as outfile:
+                json.dump(config, outfile, indent=4, sort_keys=True)
+    else:  # isinstance(config, list): -- cointains multiple networks
+        for i in range(len(config)):
+            max_dir_num += 1
+            directory = package_dir+"/"+str(max_dir_num)
+            config[i]["random_seed"] = i
+            os.makedirs(directory)
+            indexes.append(max_dir_num)
+            with open(directory + "/" + "net_config.json", 'w') as outfile:
+                json.dump(config[i], outfile, indent=4, sort_keys=True)
     logging.info("create indexes %s" % indexes)
     return indexes
 
