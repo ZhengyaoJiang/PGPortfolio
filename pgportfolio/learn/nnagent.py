@@ -25,8 +25,9 @@ class NNAgent:
                               tf.reduce_sum(self.__future_price * self.__net.output, axis=1)[:, None]
         # tf.assert_equal(tf.reduce_sum(self.__future_omega, axis=1), tf.constant(1.0))
         self.__commission_ratio = self.__config["trading"]["trading_consumption"]
-        self.__pv_vector = tf.reduce_sum(self.__net.output * self.__future_price, reduction_indices=[1]) *\
-                           (tf.concat([tf.ones(1), self.__pure_pc()], axis=0))
+        self.__pv_vector = tf.concat([tf.ones(1),
+                                      tf.reduce_sum(self.__net.output * self.__future_price, axis=1)[:-1] *
+                                      self.__pure_pc()], axis=0)
         self.__log_mean_free = tf.reduce_mean(tf.log(tf.reduce_sum(self.__net.output * self.__future_price,
                                                                    reduction_indices=[1])))
         self.__portfolio_value = tf.reduce_prod(self.__pv_vector)
