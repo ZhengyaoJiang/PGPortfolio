@@ -120,9 +120,20 @@ def panel_fillna(panel, type="bfill"):
     frames = {}
     for item in panel.items:
         if type == "both":
-            frames[item] = panel.loc[item].fillna(axis=1, method="bfill").\
-                fillna(axis=1, method="ffill")
+            frames[item] = panel.loc[item].fillna(axis=1, method="bfill").fillna(axis=1, method="ffill")
         else:
             frames[item] = panel.loc[item].fillna(axis=1, method=type)
     return pd.Panel(frames)
 
+
+def serial_data_fillna(serial_data, type="bfill"):
+    """
+    fill nan
+    :param serial_data: the series to be filled
+    :param type: bfill or ffill
+    """
+    if type == "both":
+        ret_val = serial_data.fillna(method="bfill").fillna(method="ffill")
+    else:
+        ret_val = serial_data.fillna(method=type)
+    return ret_val
