@@ -1,6 +1,6 @@
 # User Guide
 ## Configuration File
-Under the `nntrader/nntrader` directory, there is a json file called `net_config.json`,
+Under the `PGPortfolio/pgportfolio` directory, there is a json file called `net_config.json`,
  holding all the configuration of the agent and could be modified outside the program code.
 ### Network Topology
 * `"layers"`
@@ -48,8 +48,8 @@ Under the `nntrader/nntrader` directory, there is a json file called `net_config
         * if it is online, new data that dose not exist in the database would be saved
 
 ## Training and Tuning the hyper-parameters
-1. First, modify the `nntrader/nntrader/net_config.json` file.
-2. make sure current directory is under `nntrader` and type `python main.py --mode=generate --repeat=1`
+1. First, modify the `PGPortfolio/pgportfolio/net_config.json` file.
+2. make sure current directory is under `/PGPortfolio/` and type `python main.py --mode=generate --repeat=1`
     * this will make 1 subfolders under the `train_package`
     * in each subfolder, there is a copy of the `net_config.json`
     * `--repeat=n`, n could followed by any positive integers. The random seed of each the subfolder is from 0 to n-1 sequentially.
@@ -103,7 +103,7 @@ There are three types of logging of each training.
 
 ## Download Data
 * Type `python main.py --mode=download_data` you can download data without starting training
-* The program will use the configurations in `nntrader/nntrader/net_config` to select coins and
+* The program will use the configurations in `PGPortfolio/pgportfolio/net_config` to select coins and
   download necessary data to train the network.
 * The downloading speed could be very slow and sometimes even have error in China.
 * For those who cann't download data, please check the first release where there is a `Data.db` file, put it in the database folder. Make sure the `online` in `input` in `net_config.json` to be `false` and run the example.
