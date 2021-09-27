@@ -69,8 +69,21 @@ class HistoryManager:
         self.__checkperiod(period)
 
         time_index = pd.to_datetime(list(range(start, end+1, period)),unit='s')
-        panel = pd.Panel(items=features, major_axis=coins, minor_axis=time_index, dtype=np.float32)
+        #panel = pd.Panel(items=features, major_axis=coins, minor_axis=time_index, dtype=np.float32)
+        #print(panel.head())
+        print(coins)
+        print(time_index)
+        print(type(time_index))
+        print(features)
+        print('================================')
 
+        idx = pd.MultiIndex.from_product([coins, time_index])
+        panel = pd.DataFrame(columns=features, dtype=np.float32, index=idx)
+        print(panel.head)
+        print(panel.dtypes)
+
+        # panel = pd.DataFrame(index=pd.MultiIndex.from_arrays(coins, time_index), columns=features, dtype=np.float32)
+        # print(panel.head())
         connection = sqlite3.connect(DATABASE_DIR)
         try:
             for row_number, coin in enumerate(coins):
@@ -114,7 +127,7 @@ class HistoryManager:
                     serial_data = pd.read_sql_query(sql, con=connection,
                                                     parse_dates=["date_norm"],
                                                     index_col="date_norm")
-                    panel.loc[feature, coin, serial_data.index] = serial_data.squeeze()
+                    panel.loc[(coin, serial_data.index), feature] = serial_data.squeeze().values
                     panel = panel_fillna(panel, "both")
         finally:
             connection.commit()

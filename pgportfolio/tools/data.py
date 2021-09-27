@@ -118,11 +118,10 @@ def panel_fillna(panel, type="bfill"):
     :param type: bfill or ffill
     """
     frames = {}
-    for item in panel.items:
+    for col in panel.columns:
         if type == "both":
-            frames[item] = panel.loc[item].fillna(axis=1, method="bfill").\
-                fillna(axis=1, method="ffill")
+            frames[col] = panel.loc[:, col].fillna(method="bfill").fillna(method="ffill")
         else:
-            frames[item] = panel.loc[item].fillna(axis=1, method=type)
-    return pd.Panel(frames)
+            frames[col] = panel.loc[:, col].fillna(method=type)
+    return pd.DataFrame(frames)
 
