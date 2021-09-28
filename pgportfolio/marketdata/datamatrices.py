@@ -37,9 +37,13 @@ class DataMatrices:
 
         # assert window_size >= MIN_NUM_PERIOD
         self.__coin_no = coin_filter
+        print(f'[DataMatrices.__init__] __coin_no: {self.__coin_no}')
         type_list = get_type_list(feature_number)
         self.__features = type_list
+        print(f'[DataMatrices.__init__] __features: {self.__features}')
         self.feature_number = feature_number
+        print(f'[DataMatrices.__init__] feature_number: {self.feature_number}')
+        # volume forward is the point in time which to get volume in timeseries
         volume_forward = get_volume_forward(self.__end-start, test_portion, portion_reversed)
         self.__history_manager = gdm.HistoryManager(coin_number=coin_filter, end=self.__end,
                                                     volume_average_days=volume_average_days,
@@ -52,21 +56,30 @@ class DataMatrices:
         else:
             raise ValueError("market {} is not valid".format(market))
         self.__period_length = period
-        # portfolio vector memory, [time, assets]
-        self.__PVM = pd.DataFrame(index=self.__global_data.minor_axis,
-                                  columns=self.__global_data.major_axis)
+        print(f'[DataMatrices.__init__] __period_length: {self.__period_length}')
+        self.__PVM = pd.DataFrame(index=list(self.__global_data.index.get_level_values(1)),
+                                  columns=list(self.__global_data.index.get_level_values(0).unique()))
         self.__PVM = self.__PVM.fillna(1.0 / self.__coin_no)
 
+        print('[DataMatrices.__init__] Portfolio Vector Memory: PVM (head)')
+        print(self.__PVM.head(10))
+
         self._window_size = window_size
-        self._num_periods = len(self.__global_data.minor_axis)
+        print(f'[DataMatrices.__init__] _window_size: {self._window_size}')
+        self._num_periods = self.__global_data.index.levshape[1]
+        print(f'[DataMatrices.__init__] _num_periods: {self._num_periods}')
         self.__divide_data(test_portion, portion_reversed)
 
         self._portion_reversed = portion_reversed
+        print(f'[DataMatrices.__init__] _portion_reversed: {self._portion_reversed}')
         self.__is_permed = is_permed
+        print(f'[DataMatrices.__init__] __is_permed: {self.__is_permed}')
 
         self.__batch_size = batch_size
+        print(f'[DataMatrices.__init__] __batch_size: {self.__batch_size}')
         self.__delta = 0  # the count of global increased
         end_index = self._train_ind[-1]
+        print(f'[DataMatrices.__init__] end_index: {end_index}')
         self.__replay_buffer = rb.ReplayBuffer(start_index=self._train_ind[0],
                                                end_index=end_index,
                                                sample_bias=buffer_bias_ratio,
