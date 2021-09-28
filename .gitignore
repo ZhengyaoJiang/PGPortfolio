@@ -110,3 +110,6 @@ train_package/
 
 # Pipenv
 Pipfile.lock
+
+# VSCode
+.vscode/
