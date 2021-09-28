@@ -1,3 +1,9 @@
+### Note this forked version will attempt to update the project to use latest Python packages.
+Tasks
+* upgrade from depricated pandas Panels to multi-index DataFrame
+* upgrade TF1 and tflearn to use TF2
+---
+
 This is the implementation of our paper, A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem ([arXiv:1706.10059](https://arxiv.org/abs/1706.10059)), together with a toolkit of portfolio management research.
 
 * The policy optimization method we described in the paper is designed specifically for portfolio management problem.
